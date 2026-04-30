@@ -1,0 +1,123 @@
+---
+import { ArrowRight, CircleCheck } from "@lucide/astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import DeploymentMatrix from "@/components/DeploymentMatrix.astro";
+import ProductCard from "@/components/ProductCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { assets, capabilities, products } from "@/data/site";
+---
+
+<BaseLayout
+  title="Products"
+  description="Compare GM Defensive run-flat tire changer machines for workshop, container, and trailer deployments."
+  image="/assets/gmr-023-products.webp"
+>
+  <section class="page-hero" style={`--page-image: url('${assets.operation}')`}>
+    <div class="container reveal">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span><span>Products</span>
+      </nav>
+      <p class="eyebrow">Run-flat changer models</p>
+      <h1>Products</h1>
+      <p>
+        A focused model family for defense maintenance teams that need safer, faster run-flat tire service across depot,
+        protected field, and mobile operations.
+      </p>
+      <div class="button-row">
+        <a class="button button-primary" href="/contact-us/">
+          Request Model Guidance
+          <ArrowRight size={18} aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-row">
+        <SectionHeading
+          eyebrow="Model family"
+          title="Select by operating environment."
+          body="The existing sitemap places the product models under Products. This rebuild keeps that hierarchy and makes the differences clear for international buyers."
+        />
+        <div class="section-kpi reveal">
+          <strong>3 formats</strong>
+          <span>same maintenance objective, different deployment profile</span>
+        </div>
+      </div>
+      <DeploymentMatrix />
+      <div class="model-grid">
+        {products.map((product) => <ProductCard product={product} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Comparison"
+        title="Run-flat machine configuration overview."
+        body="Each model serves the same core maintenance objective, but the deployment format changes how and where it supports the fleet."
+      />
+      <table class="compare-table reveal">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Best For</th>
+            <th>Environment</th>
+            <th>Primary Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <tr>
+              <td data-label="Model"><strong><a href={product.href}>{product.shortTitle}</a></strong></td>
+              <td data-label="Best For">{product.bestFor}</td>
+              <td data-label="Environment">{product.environment}</td>
+              <td data-label="Primary Value">{product.summary}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section dark-band">
+    <div class="container split">
+      <div class="reveal">
+        <SectionHeading
+          eyebrow="Why choose GM Defensive"
+          title="A technical product story built around readiness."
+          body="The public content emphasizes productivity, safety, quality assurance, worldwide delivery, on-site training, and warranty-backed support. The redesign organizes those points into a buyer-friendly evaluation flow."
+        />
+        <ul class="feature-list">
+          <li><CircleCheck size={18} aria-hidden="true" /> Improved productivity for heavy run-flat tire changes.</li>
+          <li><CircleCheck size={18} aria-hidden="true" /> Enhanced operator safety through controlled lifting and remote operation.</li>
+          <li><CircleCheck size={18} aria-hidden="true" /> Quality assurance, training, warranty, and long-term parts planning.</li>
+        </ul>
+      </div>
+      <div class="media-frame reveal">
+        <img src="/assets/runflat-machine-4.webp" alt="Run-flat changer hydraulic system and machine detail" loading="eager" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Core systems"
+        title="The components buyers should evaluate."
+        body="The same capability language appears throughout the product family so procurement teams can compare deployment models without losing sight of the operating workflow."
+      />
+      <div class="feature-grid">
+        {capabilities.map((item) => (
+          <article class="feature-card reveal">
+            <div class="feature-icon"><CircleCheck size={22} aria-hidden="true" /></div>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

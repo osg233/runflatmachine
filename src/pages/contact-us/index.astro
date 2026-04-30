@@ -1,0 +1,93 @@
+---
+import { CircleCheck, Mail, ShieldCheck } from "@lucide/astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { assets, products } from "@/data/site";
+---
+
+<BaseLayout
+  title="Contact Us"
+  description="Contact GM Defensive about run-flat tire changer machines, model selection, delivery, training, and spare parts support."
+  image={assets.operation}
+>
+  <section class="page-hero" style={`--page-image: url('${assets.operation}')`}>
+    <div class="container reveal">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span><span>Contact Us</span>
+      </nav>
+      <p class="eyebrow">Have questions?</p>
+      <h1>Get in touch.</h1>
+      <p>
+        Submit your information and the GM Defensive team can follow up on model fit, technical details, delivery,
+        training, and support requirements.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-grid">
+      <div class="reveal">
+        <SectionHeading
+          eyebrow="Buyer inquiry"
+          title="Make the first conversation technical."
+          body="For faster guidance, include vehicle family, rim size range, current maintenance workflow, expected service volume, and whether the machine will be workshop-based, containerized, or trailer-mounted."
+        />
+        <ul class="feature-list">
+          <li><CircleCheck size={18} aria-hidden="true" /> Model recommendation for GMR-023, GMH-098, or GMT-099.</li>
+          <li><CircleCheck size={18} aria-hidden="true" /> Deployment, setup, and operator training discussion.</li>
+          <li><CircleCheck size={18} aria-hidden="true" /> Warranty and long-term spare parts availability planning.</li>
+        </ul>
+
+        <div class="contact-panel" style="margin-top: 1.5rem;">
+          <div class="feature-icon"><ShieldCheck size={22} aria-hidden="true" /></div>
+          <h3>Procurement checklist</h3>
+          <p>
+            Fleet type, tire dimensions, rim format, operating region, delivery deadline, required documentation, and
+            operator training expectations.
+          </p>
+        </div>
+      </div>
+
+      <form class="contact-panel reveal" name="runflat-inquiry" method="post" data-netlify="true">
+        <input type="hidden" name="form-name" value="runflat-inquiry" />
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" name="name" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="email">Business email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="company">Organization</label>
+            <input id="company" name="company" autocomplete="organization" />
+          </div>
+          <div class="field">
+            <label for="model">Model interest</label>
+            <select id="model" name="model">
+              <option value="Model guidance">Model guidance</option>
+              {products.map((product) => <option value={product.shortTitle}>{product.shortTitle}</option>)}
+            </select>
+          </div>
+          <div class="field full">
+            <label for="message">Technical requirement</label>
+            <textarea
+              id="message"
+              name="message"
+              placeholder="Fleet type, rim range, deployment environment, timeline, and support needs"
+              required
+            ></textarea>
+          </div>
+        </div>
+        <button class="button button-primary" type="submit" style="margin-top: 1rem;">
+          Submit Inquiry
+          <Mail size={18} aria-hidden="true" />
+        </button>
+        <p style="font-size: 0.88rem;">
+          Include enough technical detail for the team to route the inquiry to the right model and support path.
+        </p>
+      </form>
+    </div>
+  </section>
+</BaseLayout>

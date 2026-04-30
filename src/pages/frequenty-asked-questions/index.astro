@@ -1,0 +1,67 @@
+---
+import { ArrowRight, CircleCheck } from "@lucide/astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { assets, faqs } from "@/data/site";
+---
+
+<BaseLayout
+  title="Frequenty Asked Questions"
+  description="Answers about run-flat tires, GM Defensive run-flat changer machines, models, safety, support, and buying guidance."
+  image={assets.training}
+>
+  <section class="page-hero" style={`--page-image: url('${assets.training}')`}>
+    <div class="container reveal">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span><span>FAQ</span>
+      </nav>
+      <p class="eyebrow">Run-flat machine essentials</p>
+      <h1>Frequenty Asked Questions</h1>
+      <p>
+        Clear answers for defense buyers and maintenance teams evaluating run-flat tire changer machines for armored
+        vehicles and military trucks.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="reveal">
+        <SectionHeading
+          eyebrow="Quick context"
+          title="What buyers usually need to know first."
+          body="The original FAQ route is retained with its existing typo in the URL and page title to preserve sitemap accuracy."
+        />
+        <ul class="feature-list">
+          <li><CircleCheck size={18} aria-hidden="true" /> Fast tire replacement for mission-critical fleets.</li>
+          <li><CircleCheck size={18} aria-hidden="true" /> Safer handling of heavy run-flat wheel assemblies.</li>
+          <li><CircleCheck size={18} aria-hidden="true" /> Workshop, container, and trailer model options.</li>
+        </ul>
+      </div>
+      <div class="faq-list reveal">
+        {faqs.map((item, index) => (
+          <details open={index === 0}>
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight dark-band">
+    <div class="container split">
+      <SectionHeading
+        eyebrow="Still evaluating?"
+        title="Turn the FAQ into a model recommendation."
+        body="The fastest route is to share the operating environment, rim range, service volume, and desired deployment format."
+      />
+      <div class="button-row">
+        <a class="button button-light" href="/contact-us/">
+          Contact GM Defensive
+          <ArrowRight size={18} aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

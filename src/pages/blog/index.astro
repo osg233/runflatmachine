@@ -1,0 +1,48 @@
+---
+import { ArrowRight } from "@lucide/astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostCard from "@/components/PostCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { posts } from "@/data/site";
+---
+
+<BaseLayout
+  title="Blog"
+  description="Run-flat machine resources for military tire disassembly, procurement, and armored vehicle maintenance planning."
+  image="/assets/runflat-removal.webp"
+>
+  <section class="page-hero" style="--page-image: url('/assets/runflat-removal.webp')">
+    <div class="container reveal">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span><span>Blog</span>
+      </nav>
+      <p class="eyebrow">Technical resources</p>
+      <h1>Blog</h1>
+      <p>
+        Buyer-focused resources on military tire disassembly, run-flat machine selection, and armored vehicle maintenance
+        workflows.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <SectionHeading
+          eyebrow="Run-flat machine insights"
+          title="Sitemap-backed articles, rebuilt for clarity."
+          body="The live sitemap contains five blog posts. The rebuild preserves those routes and improves the article structure for technical scanning."
+        />
+        <div class="button-row">
+          <a class="button button-primary" href="/contact-us/">
+            Ask a Product Question
+            <ArrowRight size={18} aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+      <div class="post-grid">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

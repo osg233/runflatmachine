@@ -1,0 +1,26 @@
+---
+import { ArrowRight, Building2, Container, Route } from "@lucide/astro";
+import { products } from "@/data/site";
+
+const icons = [Building2, Container, Route];
+---
+
+<div class="deployment-matrix reveal">
+  {products.map((product, index) => {
+    const Icon = icons[index] || Building2;
+    return (
+      <a class="deployment-card" href={product.href}>
+        <div class="deployment-card-top">
+          <span class="deployment-icon"><Icon size={20} aria-hidden="true" /></span>
+          <span>{product.model}</span>
+        </div>
+        <h3>{product.bestFor}</h3>
+        <p>{product.environment}</p>
+        <div class="deployment-meta">
+          <span>{product.availability}</span>
+          <ArrowRight size={16} aria-hidden="true" />
+        </div>
+      </a>
+    );
+  })}
+</div>

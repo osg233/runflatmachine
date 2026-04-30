@@ -1,0 +1,38 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostCard from "@/components/PostCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { getPostsForTag, taxonomyPages } from "@/data/site";
+
+export function getStaticPaths() {
+  return taxonomyPages.tags.map((tag) => ({
+    params: { slug: tag.slug },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const tagPosts = getPostsForTag(tag.slug);
+---
+
+<BaseLayout title={`${tag.label} Tag`} description={`Articles tagged ${tag.label}.`} image="/assets/training.webp">
+  <section class="page-hero" style="--page-image: url('/assets/training.webp')">
+    <div class="container reveal">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span>{tag.label}</span>
+      </nav>
+      <p class="eyebrow">Tag</p>
+      <h1>{tag.label}</h1>
+      <p>Articles and buying guidance connected to this run-flat machine topic.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading eyebrow="Archive" title={`Tagged ${tag.label}`} />
+      <div class="post-grid">
+        {tagPosts.length ? tagPosts.map((post) => <PostCard post={post} />) : <p>No posts are assigned to this tag yet.</p>}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

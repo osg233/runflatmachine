@@ -1,0 +1,183 @@
+---
+import { ArrowRight, CircleCheck } from "@lucide/astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProductCard from "@/components/ProductCard.astro";
+import PostCard from "@/components/PostCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { getPostBySlug, getProductBySlug, posts, products } from "@/data/site";
+
+export function getStaticPaths() {
+  return [
+    ...products.map((product) => ({ params: { slug: product.slug }, props: { kind: "product" } })),
+    ...posts.map((post) => ({ params: { slug: post.slug }, props: { kind: "post" } })),
+  ];
+}
+
+const { slug } = Astro.params;
+const product = slug ? getProductBySlug(slug) : undefined;
+const post = slug ? getPostBySlug(slug) : undefined;
+
+if (!product && !post) {
+  return Astro.redirect("/404/");
+}
+
+const relatedProducts = product ? products.filter((item) => item.slug !== product.slug) : products.slice(0, 3);
+const relatedPosts = post ? posts.filter((item) => item.slug !== post.slug).slice(0, 3) : posts.slice(0, 3);
+---
+
+{
+  product && (
+    <BaseLayout title={product.title} description={product.summary} image={product.photo}>
+      <section class="page-hero" style={`--page-image: url('${product.photo}')`}>
+        <div class="container reveal">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a><span>/</span><a href="/products/">Products</a><span>/</span><span>{product.shortTitle}</span>
+          </nav>
+          <p class="eyebrow">{product.eyebrow}</p>
+          <h1>{product.title}</h1>
+          <p>{product.description}</p>
+          <div class="button-row">
+            <a class="button button-primary" href="/contact-us/">
+              Request Quote
+              <ArrowRight size={18} aria-hidden="true" />
+            </a>
+            <a class="button button-secondary" href="/products/">
+              Compare Models
+              <CircleCheck size={18} aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container product-detail">
+          <div class="reveal">
+            <SectionHeading
+              eyebrow={product.model}
+              title="Built for controlled run-flat disassembly and replacement."
+              body={product.summary}
+            />
+            <ul class="check-list">
+              {product.capabilities.map((item) => (
+                <li><CircleCheck size={17} aria-hidden="true" />{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="media-frame reveal">
+            <img src={product.image} alt={product.title} loading="lazy" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section-tight">
+        <div class="container">
+          <div class="spec-grid reveal">
+            {product.specs.map((spec) => (
+              <div class="spec">
+                <span>{spec.label}</span>
+                <strong>{spec.value}</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section dark-band">
+        <div class="container">
+          <SectionHeading
+            eyebrow="Key features"
+            title="What this model brings into the maintenance workflow."
+            body="The product copy has been tightened around operational clarity, operator confidence, and deployment fit."
+          />
+          <div class="feature-grid">
+            {product.highlights.map((highlight) => (
+              <article class="feature-card reveal">
+                <div class="feature-icon"><CircleCheck size={22} aria-hidden="true" /></div>
+                <h3>{highlight}</h3>
+                <p>
+                  Supports the safe and efficient handling of heavy military run-flat tire assemblies during service,
+                  replacement, and reassembly tasks.
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <SectionHeading
+            eyebrow="Product visuals"
+            title="Machine presentation with real product assets."
+            body="The original machine imagery is reused because it clearly shows the equipment. The new layout improves framing, contrast, and buyer context."
+          />
+          <div class="gallery-grid reveal">
+            <img src={product.photo} alt={`${product.shortTitle} operational view`} loading="lazy" />
+            <img src="/assets/runflat-inserts.webp" alt="Run-flat insert disassembly and reassembly system" loading="lazy" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section-tight">
+        <div class="container">
+          <SectionHeading eyebrow="Related models" title="Compare adjacent configurations." />
+          <div class="model-grid">
+            {relatedProducts.map((item) => <ProductCard product={item} compact />)}
+          </div>
+        </div>
+      </section>
+    </BaseLayout>
+  )
+}
+
+{
+  post && (
+    <BaseLayout title={post.title} description={post.excerpt} image={post.image}>
+      <section class="page-hero" style={`--page-image: url('${post.image}')`}>
+        <div class="container reveal">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span>{post.title}</span>
+          </nav>
+          <p class="eyebrow">Run-flat resource</p>
+          <h1>{post.title}</h1>
+          <p>{post.excerpt}</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container product-detail">
+          <article class="article reveal">
+            {post.sections.map((section) => (
+              <>
+                <h2>{section.heading}</h2>
+                {section.body.map((paragraph) => <p>{paragraph}</p>)}
+              </>
+            ))}
+          </article>
+          <aside class="article-aside contact-panel reveal">
+            <p class="eyebrow">Related procurement path</p>
+            <h3>Need a model recommendation?</h3>
+            <p>
+              Share your vehicle family, rim range, operating location, and expected service volume so the right
+              configuration can be evaluated.
+            </p>
+            <a class="button button-primary" href="/contact-us/">
+              Start Inquiry
+              <ArrowRight size={18} aria-hidden="true" />
+            </a>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section-tight">
+        <div class="container">
+          <SectionHeading eyebrow="More resources" title="Continue reading." />
+          <div class="post-grid">
+            {relatedPosts.map((item) => <PostCard post={item} />)}
+          </div>
+        </div>
+      </section>
+    </BaseLayout>
+  )
+}

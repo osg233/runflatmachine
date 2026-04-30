@@ -1,0 +1,17 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Page Not Found" description="The requested page could not be found." noindex>
+  <section class="page-hero" style="--page-image: url('/assets/operation.webp')">
+    <div class="container reveal">
+      <p class="eyebrow">404</p>
+      <h1>Page not found.</h1>
+      <p>The route is not part of the rebuilt Run Flat Machine sitemap.</p>
+      <div class="button-row">
+        <a class="button button-primary" href="/products/">View Products</a>
+        <a class="button button-secondary" href="/contact-us/">Contact Us</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,53 @@
+---
+import { Menu, X, ChevronDown, ArrowRight } from "@lucide/astro";
+import { site } from "@/data/site";
+
+const currentPath = Astro.url.pathname;
+
+function isActive(href: string) {
+  if (href === "/") return currentPath === "/";
+  return currentPath.startsWith(href);
+}
+---
+
+<header class="site-header" data-header>
+  <div class="top-strip">
+    <span>Military run-flat tire changer systems</span>
+    <span>Workshop, container, and trailer configurations</span>
+  </div>
+  <div class="nav-shell">
+    <a href="/" class="brand" aria-label="Run Flat Machine home">
+      <img src="/assets/logo.png" alt="Run Flat Machine" width="180" height="77" />
+    </a>
+
+    <button class="mobile-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-toggle>
+      <Menu class="icon-open" size={24} aria-hidden="true" />
+      <X class="icon-close" size={24} aria-hidden="true" />
+    </button>
+
+    <nav class="primary-nav" aria-label="Primary navigation" data-menu>
+      {
+        site.nav.map((item) => (
+          <div class:list={["nav-item", item.children && "has-children", isActive(item.href) && "active"]}>
+            <a href={item.href}>
+              {item.label}
+              {item.children && <ChevronDown size={15} aria-hidden="true" />}
+            </a>
+            {item.children && (
+              <div class="submenu">
+                {item.children.map((child) => (
+                  <a href={child.href}>{child.label}</a>
+                ))}
+              </div>
+            )}
+          </div>
+        ))
+      }
+    </nav>
+
+    <a href="/contact-us/" class="nav-cta">
+      Request Quote
+      <ArrowRight size={17} aria-hidden="true" />
+    </a>
+  </div>
+</header>

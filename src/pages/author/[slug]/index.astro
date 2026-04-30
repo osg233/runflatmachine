@@ -1,0 +1,38 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostCard from "@/components/PostCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { getPostsForAuthor, taxonomyPages } from "@/data/site";
+
+export function getStaticPaths() {
+  return taxonomyPages.authors.map((author) => ({
+    params: { slug: author.slug },
+    props: { author },
+  }));
+}
+
+const { author } = Astro.props;
+const authorPosts = getPostsForAuthor(author.slug);
+---
+
+<BaseLayout title={`${author.label} Author`} description={`Articles by ${author.label}.`} image="/assets/operation.webp">
+  <section class="page-hero" style="--page-image: url('/assets/operation.webp')">
+    <div class="container reveal">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span>{author.label}</span>
+      </nav>
+      <p class="eyebrow">Author</p>
+      <h1>{author.label}</h1>
+      <p>Run-flat machine resources from the sitemap author archive.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading eyebrow="Archive" title={`Posts by ${author.label}`} />
+      <div class="post-grid">
+        {authorPosts.length ? authorPosts.map((post) => <PostCard post={post} />) : <p>No published posts are assigned to this author archive.</p>}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

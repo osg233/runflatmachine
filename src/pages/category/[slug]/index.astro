@@ -1,0 +1,42 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostCard from "@/components/PostCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { getPostsForCategory, taxonomyPages } from "@/data/site";
+
+export function getStaticPaths() {
+  return taxonomyPages.categories.map((category) => ({
+    params: { slug: category.slug },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+const categoryPosts = getPostsForCategory(category.slug);
+---
+
+<BaseLayout
+  title={`${category.label} Category`}
+  description={`Articles filed under ${category.label}.`}
+  image="/assets/runflat-removal.webp"
+>
+  <section class="page-hero" style="--page-image: url('/assets/runflat-removal.webp')">
+    <div class="container reveal">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span>{category.label}</span>
+      </nav>
+      <p class="eyebrow">Category</p>
+      <h1>{category.label}</h1>
+      <p>Technical resources connected to run-flat machine procurement and armored fleet maintenance.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading eyebrow="Archive" title={`Posts in ${category.label}`} />
+      <div class="post-grid">
+        {categoryPosts.map((post) => <PostCard post={post} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

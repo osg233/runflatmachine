@@ -1,0 +1,276 @@
+---
+import { ArrowRight, CircleCheck, Factory, Gauge, Globe, ShieldCheck, Truck, Wrench } from "@lucide/astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import DeploymentMatrix from "@/components/DeploymentMatrix.astro";
+import ProductCard from "@/components/ProductCard.astro";
+import PostCard from "@/components/PostCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { assets, capabilities, posts, products, site } from "@/data/site";
+---
+
+<BaseLayout
+  title="Run-Flat Tire Changer Machines for Military Vehicles"
+  description="Premium run-flat tire changer systems for armored vehicle and military truck maintenance teams."
+  image={assets.hero}
+>
+  <section class="hero" style={`--hero-image: url('${assets.hero}')`}>
+    <div class="hero-inner">
+      <div class="hero-layout">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">GM Defensive run-flat systems</p>
+          <h1>Run-flat tire changing systems for armored fleets</h1>
+          <p>
+            Workshop, container, and trailer-mounted machines engineered to help defense maintenance teams remove,
+            install, and service run-flat tire assemblies with safer process control.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="/contact-us/">
+              Request Technical Quote
+              <ArrowRight size={18} aria-hidden="true" />
+            </a>
+            <a class="button button-secondary" href="/products/">
+              View Products
+              <Wrench size={18} aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+
+        <aside class="hero-console reveal" aria-label="Run-flat machine buyer console">
+          <div class="console-header">
+            <span><Gauge size={18} aria-hidden="true" /> Readiness Console</span>
+            <strong>16-27 in</strong>
+          </div>
+          <div class="console-visual">
+            <img src="/assets/gmr-023-products.webp" alt="GMR-023 workshop run-flat changer system" />
+          </div>
+          <div class="console-grid">
+            <div>
+              <span>Primary buyer</span>
+              <strong>Defense maintenance</strong>
+            </div>
+            <div>
+              <span>Deployment</span>
+              <strong>Workshop / Container / Trailer</strong>
+            </div>
+            <div>
+              <span>Support promise</span>
+              <strong>Warranty, training, spare parts</strong>
+            </div>
+          </div>
+          <a class="console-link" href="/products/">
+            Compare configurations
+            <ArrowRight size={16} aria-hidden="true" />
+          </a>
+        </aside>
+      </div>
+
+      <div class="hero-metrics reveal" aria-label="Business proof points">
+        {site.metrics.map((metric) => (
+          <div class="metric">
+            <strong>{metric.value}</strong>
+            <span>{metric.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight decision-section">
+    <div class="container">
+      <figure class="deployment-visual">
+        <div class="deployment-photo-grid" aria-label="Run-flat machine deployment model photos">
+          <article class="deployment-photo-panel">
+            <img
+              src="/assets/generated/model-refs/workshop-standart.webp"
+              alt="Workshop model run-flat tire changer in a depot maintenance bay"
+              loading="eager"
+            />
+            <div class="deployment-photo-label">
+              <span>01</span>
+              <strong>Workshop model</strong>
+            </div>
+          </article>
+          <article class="deployment-photo-panel">
+            <img
+              src="/assets/generated/model-refs/container-standart.webp"
+              alt="Container model run-flat tire changer positioned for field maintenance"
+              loading="eager"
+            />
+            <div class="deployment-photo-label">
+              <span>02</span>
+              <strong>Container model</strong>
+            </div>
+          </article>
+          <article class="deployment-photo-panel">
+            <img
+              src="/assets/generated/model-refs/trailer-render.webp"
+              alt="Trailer model run-flat tire changer in road-mobile deployment position"
+              loading="eager"
+            />
+            <div class="deployment-photo-label">
+              <span>03</span>
+              <strong>Trailer model</strong>
+            </div>
+          </article>
+        </div>
+      </figure>
+      <div class="decision-intro reveal">
+        <p class="eyebrow">Choose by deployment profile</p>
+        <h2>Start with where the tire work happens.</h2>
+        <p>Fixed depot, protected field site, or road-mobile operation: the product path is now easier to evaluate in the first scroll.</p>
+      </div>
+      <DeploymentMatrix />
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container proof-strip reveal">
+      <div class="proof-item">
+        <ShieldCheck size={28} aria-hidden="true" />
+        <strong>Defense focused</strong>
+        <span>Military, police, gendarmerie, and armored vehicle fleets</span>
+      </div>
+      <div class="proof-item">
+        <Factory size={28} aria-hidden="true" />
+        <strong>Operational fit</strong>
+        <span>Depot, containerized, and field maintenance models</span>
+      </div>
+      <div class="proof-item">
+        <Truck size={28} aria-hidden="true" />
+        <strong>Fleet readiness</strong>
+        <span>Built to reduce downtime during run-flat service work</span>
+      </div>
+      <div class="proof-item">
+        <Globe size={28} aria-hidden="true" />
+        <strong>Global support</strong>
+        <span>Delivery, training, warranty, and spare parts planning</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section story-section">
+    <div class="container split story-split">
+      <div class="reveal">
+        <SectionHeading
+          eyebrow="The maintenance problem"
+          title="Run-flat assemblies are mission critical and difficult to service manually."
+          body="Military run-flat tires help vehicles keep moving after damage, but changing those heavy assemblies requires controlled force, careful lifting, and repeatable process discipline."
+        />
+        <ul class="feature-list">
+          <li><CircleCheck size={18} aria-hidden="true" /> Supports run-flat removal and reinstallation for heavy-duty tire assemblies.</li>
+          <li><CircleCheck size={18} aria-hidden="true" /> Helps reduce manual strain and exposure during high-force maintenance steps.</li>
+          <li><CircleCheck size={18} aria-hidden="true" /> Fits fixed workshops, protected field sites, and mobile trailer operations.</li>
+        </ul>
+      </div>
+      <div class="media-frame annotated-media reveal">
+        <img src={assets.training} alt="Maintenance team servicing a heavy run-flat tire with GM equipment" loading="lazy" />
+        <div class="media-note top">Remote-controlled lifting</div>
+        <div class="media-note bottom">Operator training workflow</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark-band model-range">
+    <div class="container">
+      <div class="section-row">
+        <SectionHeading
+          eyebrow="Model range"
+          title="Three configurations, one controlled service workflow."
+          body="Choose the model around your operating environment: permanent workshop, deployable container, or road-mobile trailer."
+        />
+        <a class="button button-light" href="/products/">Compare all models <ArrowRight size={18} aria-hidden="true" /></a>
+      </div>
+      <div class="model-grid">
+        {products.map((product) => <ProductCard product={product} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section capability-section">
+    <div class="container">
+      <div class="section-row">
+        <SectionHeading
+          eyebrow="Technical capability"
+          title="Purpose-built systems for heavy run-flat maintenance."
+          body="The redesigned experience brings the machine architecture forward, making it easier for buyers to understand how each system supports safer, faster fleet maintenance."
+        />
+        <div class="section-kpi reveal">
+          <strong>Process control</strong>
+          <span>lifting, removal, hydraulic force, training</span>
+        </div>
+      </div>
+      <div class="feature-grid">
+        {capabilities.map((capability, index) => {
+          const icons = [Wrench, ShieldCheck, Factory, Truck, CircleCheck, Globe];
+          const Icon = icons[index] || CircleCheck;
+          return (
+            <article class="feature-card reveal">
+              <div class="feature-icon"><Icon size={22} aria-hidden="true" /></div>
+              <span class="capability-number">{String(index + 1).padStart(2, "0")}</span>
+              <h3>{capability.title}</h3>
+              <p>{capability.body}</p>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark-band">
+    <div class="container split">
+      <div class="media-frame reveal">
+        <img src={assets.operation} alt="Run-flat tire service operation in an industrial workshop" loading="lazy" />
+      </div>
+      <div class="reveal">
+        <SectionHeading
+          eyebrow="Buyer confidence"
+          title="From model selection to operator training."
+          body="The purchase journey is framed around practical deployment: choosing the right configuration, preparing the site, training the maintenance crew, and supporting the fleet long after delivery."
+        />
+        <div class="process">
+          <div class="process-step">
+            <span>01</span>
+            <h3>Define Fleet</h3>
+            <p>Vehicle family, rim range, tire assembly type, and operating environment.</p>
+          </div>
+          <div class="process-step">
+            <span>02</span>
+            <h3>Select Model</h3>
+            <p>Workshop, container, or trailer configuration aligned to your deployment needs.</p>
+          </div>
+          <div class="process-step">
+            <span>03</span>
+            <h3>Train Team</h3>
+            <p>On-site setup and operator training for consistent run-flat service practice.</p>
+          </div>
+          <div class="process-step">
+            <span>04</span>
+            <h3>Support Fleet</h3>
+            <p>Warranty coverage and long-term spare parts planning for readiness.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="split">
+        <SectionHeading
+          eyebrow="Knowledge center"
+          title="Procurement and maintenance resources."
+          body="The blog routes from the sitemap are retained and reframed as concise technical resources for buyers and maintenance leaders."
+        />
+        <div class="button-row">
+          <a class="button button-primary" href="/blog/">
+            View Blog
+            <ArrowRight size={18} aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+      <div class="post-grid">
+        {posts.slice(0, 3).map((post) => <PostCard post={post} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

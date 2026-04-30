@@ -1,0 +1,41 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { taxonomyPages } from "@/data/site";
+
+export function getStaticPaths() {
+  return taxonomyPages.fusion.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+---
+
+<BaseLayout
+  title={`Template Taxonomy: ${item.label}`}
+  description={`${item.label} theme template taxonomy route retained from the sitemap.`}
+  noindex
+>
+  <section class="page-hero" style="--page-image: url('/assets/operation.webp')">
+    <div class="container reveal">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span><span>Template Taxonomy</span>
+      </nav>
+      <p class="eyebrow">Theme template taxonomy</p>
+      <h1>{item.label}</h1>
+      <p>This route is retained for sitemap continuity with the provided fusion template taxonomy structure.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Sitemap continuity"
+        title={`${item.label} template taxonomy`}
+        body="This archive is not part of the primary buyer navigation, but it remains available because the sitemap screenshot classifies fusion template categories separately."
+      />
+    </div>
+  </section>
+</BaseLayout>
