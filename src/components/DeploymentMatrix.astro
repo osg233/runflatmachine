@@ -5,14 +5,15 @@ import { products } from "@/data/site";
 const icons = [Building2, Container, Route];
 ---
 
-<div class="deployment-matrix reveal">
+<div class="deployment-matrix reveal" aria-label="Run-flat machine deployment model links">
   {products.map((product, index) => {
     const Icon = icons[index] || Building2;
     return (
-      <a class="deployment-card" href={product.href}>
+      <a class="deployment-card" href={product.href} aria-label={`View ${product.shortTitle}`}>
         <div class="deployment-card-top">
+          <span class="deployment-index">{String(index + 1).padStart(2, "0")}</span>
           <span class="deployment-icon"><Icon size={20} aria-hidden="true" /></span>
-          <span>{product.model}</span>
+          <span class="deployment-model">{product.model}</span>
         </div>
         <h3>{product.bestFor}</h3>
         <p>{product.environment}</p>

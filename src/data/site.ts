@@ -40,7 +40,7 @@ export const site = {
 export const assets = {
   logo: "/assets/logo.png",
   logoMark: "/assets/logo-mark.png",
-  hero: "/assets/operation.webp",
+  hero: "/assets/hero-workshop-concept.jpg",
   training: "/assets/training.webp",
   operation: "/assets/operation.webp",
   runflatRemoval: "/assets/runflat-removal.webp",

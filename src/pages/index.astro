@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, CircleCheck, Factory, Gauge, Globe, ShieldCheck, Truck, Wrench } from "@lucide/astro";
+import { ArrowRight, CircleCheck, Factory, Globe, ShieldCheck, Truck, Wrench } from "@lucide/astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import DeploymentMatrix from "@/components/DeploymentMatrix.astro";
 import ProductCard from "@/components/ProductCard.astro";
@@ -17,51 +17,28 @@ import { assets, capabilities, posts, products, site } from "@/data/site";
     <div class="hero-inner">
       <div class="hero-layout">
         <div class="hero-copy reveal">
-          <p class="eyebrow">GM Defensive run-flat systems</p>
-          <h1>Run-flat tire changing systems for armored fleets</h1>
+          <p class="eyebrow">Workshop model run-flat changer</p>
+          <h1>Depot-ready tire service for armored fleets</h1>
           <p>
-            Workshop, container, and trailer-mounted machines engineered to help defense maintenance teams remove,
-            install, and service run-flat tire assemblies with safer process control.
+            A fixed-workshop system built for controlled run-flat tire removal, installation, and repeatable heavy-duty
+            maintenance workflows.
           </p>
           <div class="hero-actions">
             <a class="button button-primary" href="/contact-us/">
-              Request Technical Quote
+              Request Workshop Quote
               <ArrowRight size={18} aria-hidden="true" />
             </a>
             <a class="button button-secondary" href="/products/">
-              View Products
+              Compare Models
               <Wrench size={18} aria-hidden="true" />
             </a>
           </div>
+          <div class="hero-trust" aria-label="Operational strengths">
+            <span><Factory size={16} aria-hidden="true" /> Fixed depot setup</span>
+            <span><ShieldCheck size={16} aria-hidden="true" /> Safer tire handling</span>
+            <span><Globe size={16} aria-hidden="true" /> Training and spare parts</span>
+          </div>
         </div>
-
-        <aside class="hero-console reveal" aria-label="Run-flat machine buyer console">
-          <div class="console-header">
-            <span><Gauge size={18} aria-hidden="true" /> Readiness Console</span>
-            <strong>16-27 in</strong>
-          </div>
-          <div class="console-visual">
-            <img src="/assets/gmr-023-products.webp" alt="GMR-023 workshop run-flat changer system" />
-          </div>
-          <div class="console-grid">
-            <div>
-              <span>Primary buyer</span>
-              <strong>Defense maintenance</strong>
-            </div>
-            <div>
-              <span>Deployment</span>
-              <strong>Workshop / Container / Trailer</strong>
-            </div>
-            <div>
-              <span>Support promise</span>
-              <strong>Warranty, training, spare parts</strong>
-            </div>
-          </div>
-          <a class="console-link" href="/products/">
-            Compare configurations
-            <ArrowRight size={16} aria-hidden="true" />
-          </a>
-        </aside>
       </div>
 
       <div class="hero-metrics reveal" aria-label="Business proof points">
@@ -75,50 +52,35 @@ import { assets, capabilities, posts, products, site } from "@/data/site";
     </div>
   </section>
 
-  <section class="section-tight decision-section">
-    <div class="container">
-      <figure class="deployment-visual">
-        <div class="deployment-photo-grid" aria-label="Run-flat machine deployment model photos">
-          <article class="deployment-photo-panel">
-            <img
-              src="/assets/generated/model-refs/workshop-standart.webp"
-              alt="Workshop model run-flat tire changer in a depot maintenance bay"
-              loading="eager"
-            />
-            <div class="deployment-photo-label">
-              <span>01</span>
-              <strong>Workshop model</strong>
-            </div>
-          </article>
-          <article class="deployment-photo-panel">
-            <img
-              src="/assets/generated/model-refs/container-standart.webp"
-              alt="Container model run-flat tire changer positioned for field maintenance"
-              loading="eager"
-            />
-            <div class="deployment-photo-label">
-              <span>02</span>
-              <strong>Container model</strong>
-            </div>
-          </article>
-          <article class="deployment-photo-panel">
-            <img
-              src="/assets/generated/model-refs/trailer-render.webp"
-              alt="Trailer model run-flat tire changer in road-mobile deployment position"
-              loading="eager"
-            />
-            <div class="deployment-photo-label">
-              <span>03</span>
-              <strong>Trailer model</strong>
-            </div>
-          </article>
-        </div>
-      </figure>
+  <section class="section decision-section">
+    <div class="container deployment-section-grid">
       <div class="decision-intro reveal">
         <p class="eyebrow">Choose by deployment profile</p>
-        <h2>Start with where the tire work happens.</h2>
-        <p>Fixed depot, protected field site, or road-mobile operation: the product path is now easier to evaluate in the first scroll.</p>
+        <h2>Match the run-flat workflow to the mission.</h2>
+        <p>
+          Start with the operating environment, then choose the machine format that keeps tire service controlled,
+          mobile, and ready for the fleet.
+        </p>
+        <div class="deployment-profile-strip" aria-label="Deployment profile quick links">
+          {products.map((product, index) => (
+            <a href={product.href}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <strong>{product.shortTitle}</strong>
+              <small>{product.availability}</small>
+            </a>
+          ))}
+        </div>
       </div>
+
+      <figure class="deployment-visual reveal">
+        <img
+          class="deployment-overview-image"
+          src="/assets/deployment-overview.jpg"
+          alt="GM Defensive workshop, container, and trailer run-flat machine deployment models"
+          loading="eager"
+        />
+      </figure>
+
       <DeploymentMatrix />
     </div>
   </section>
