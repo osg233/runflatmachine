@@ -1,67 +1,201 @@
 ---
-import { ArrowRight, CircleCheck } from "@lucide/astro";
+import { ArrowRight, CircleCheck, Shield, Wrench, HelpCircle, ChevronDown } from "@lucide/astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
-import { assets, faqs } from "@/data/site";
+import { assets, faqs, products } from "@/data/site";
 ---
 
 <BaseLayout
   title="Frequenty Asked Questions"
   description="Answers about run-flat tires, GM Defensive run-flat changer machines, models, safety, support, and buying guidance."
-  image={assets.training}
+  image={assets.faqHero}
 >
-  <section class="page-hero" style={`--page-image: url('${assets.training}')`}>
-    <div class="container reveal">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a><span>/</span><span>FAQ</span>
-      </nav>
-      <p class="eyebrow">Run-flat machine essentials</p>
-      <h1>Frequenty Asked Questions</h1>
-      <p>
-        Clear answers for defense buyers and maintenance teams evaluating run-flat tire changer machines for armored
-        vehicles and military trucks.
-      </p>
+  <!-- ══ Cinematic Hero ══ -->
+  <section class="faq-hero" style={`--faq-hero-img: url('${assets.faqHero}')`}>
+    <div class="faq-hero-grid-overlay" aria-hidden="true"></div>
+    <div class="faq-hero-vignette" aria-hidden="true"></div>
+
+    <!-- Floating particles -->
+    <div class="faq-hero-particles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="faq-hero-inner">
+      <div class="faq-hero-content reveal">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a><span>/</span><span>FAQ</span>
+        </nav>
+        <span class="faq-hero-badge">Run-flat machine essentials</span>
+        <h1>Frequenty Asked<br />Questions</h1>
+        <p class="faq-hero-desc">
+          Clear answers for defense buyers and maintenance teams evaluating
+          run-flat tire changer machines for armored vehicles and military trucks.
+        </p>
+
+        <div class="faq-hero-stats">
+          <div class="faq-stat">
+            <strong data-count="8">0</strong>
+            <span>Expert answers</span>
+          </div>
+          <div class="faq-stat">
+            <strong data-count="3">0</strong>
+            <span>Machine models</span>
+          </div>
+          <div class="faq-stat">
+            <strong data-count="34">0</strong>
+            <span>Country references</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container split">
-      <div class="reveal">
-        <SectionHeading
-          eyebrow="Quick context"
-          title="What buyers usually need to know first."
-          body="The original FAQ route is retained with its existing typo in the URL and page title to preserve sitemap accuracy."
-        />
-        <ul class="feature-list">
-          <li><CircleCheck size={18} aria-hidden="true" /> Fast tire replacement for mission-critical fleets.</li>
-          <li><CircleCheck size={18} aria-hidden="true" /> Safer handling of heavy run-flat wheel assemblies.</li>
-          <li><CircleCheck size={18} aria-hidden="true" /> Workshop, container, and trailer model options.</li>
-        </ul>
+  <!-- ══ FAQ Accordion Section ══ -->
+  <section class="faq-section section" id="faq-answers">
+    <div class="container">
+      <div class="faq-section-header reveal">
+        <div class="faq-section-heading">
+          <p class="eyebrow">Quick context</p>
+          <h2>What buyers usually need to know first.</h2>
+          <p class="faq-section-sub">
+            Consolidated answers about run-flat tire systems, GM Defensive changer machines, deployment models, and after-sales support.
+          </p>
+        </div>
+        <div class="faq-quick-facts">
+          <div class="faq-fact">
+            <Shield size={20} aria-hidden="true" />
+            <div>
+              <strong>Safe handling</strong>
+              <span>Heavy run-flat wheel assemblies</span>
+            </div>
+          </div>
+          <div class="faq-fact">
+            <Wrench size={20} aria-hidden="true" />
+            <div>
+              <strong>Three configurations</strong>
+              <span>Workshop, container, and trailer</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="faq-list reveal">
+
+      <div class="faq-accordion reveal" id="faq-accordion">
         {faqs.map((item, index) => (
-          <details open={index === 0}>
-            <summary>{item.q}</summary>
-            <p>{item.a}</p>
+          <details class="faq-item" open={index === 0} data-faq-index={index}>
+            <summary>
+              <span class="faq-item-index">{String(index + 1).padStart(2, "0")}</span>
+              <span class="faq-item-question">{item.q}</span>
+              <span class="faq-item-icon" aria-hidden="true">
+                <ChevronDown size={18} />
+              </span>
+            </summary>
+            <div class="faq-item-answer">
+              <p>{item.a}</p>
+            </div>
           </details>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="section-tight dark-band">
-    <div class="container split">
+  <!-- ══ Model Quick-Reference Band ══ -->
+  <section class="faq-models-band section">
+    <div class="container reveal">
       <SectionHeading
-        eyebrow="Still evaluating?"
-        title="Turn the FAQ into a model recommendation."
-        body="The fastest route is to share the operating environment, rim range, service volume, and desired deployment format."
+        eyebrow="Need specifics?"
+        title="Match the question to a model."
+        body="Each configuration addresses different operating requirements."
+        align="center"
       />
-      <div class="button-row">
-        <a class="button button-light" href="/contact-us/">
-          Contact GM Defensive
-          <ArrowRight size={18} aria-hidden="true" />
-        </a>
+      <div class="faq-model-cards">
+        {products.map((product) => (
+          <a class="faq-model-card stagger-in" href={product.href}>
+            <span class="faq-model-badge">{product.model}</span>
+            <h3>{product.shortTitle}</h3>
+            <p>{product.bestFor}</p>
+            <span class="faq-model-link">
+              View details <ArrowRight size={14} aria-hidden="true" />
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA Band ══ -->
+  <section class="faq-cta-band">
+    <div class="faq-cta-glow" aria-hidden="true"></div>
+    <div class="container reveal">
+      <div class="faq-cta-content">
+        <p class="eyebrow">Still evaluating?</p>
+        <h2>Turn the FAQ into a model recommendation.</h2>
+        <p>
+          The fastest route is to share the operating environment, rim range, service
+          volume, and desired deployment format.
+        </p>
+        <div class="faq-cta-actions">
+          <a class="button button-primary" href="/contact-us/">
+            Contact GM Defensive
+            <ArrowRight size={18} aria-hidden="true" />
+          </a>
+          <a class="button button-secondary" href="/products/">
+            Compare models
+            <ArrowRight size={18} aria-hidden="true" />
+          </a>
+        </div>
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  // ── Counter animation ──
+  function animateCounters() {
+    const counters = document.querySelectorAll<HTMLElement>("[data-count]");
+    counters.forEach((el) => {
+      const target = parseInt(el.dataset.count || "0", 10);
+      let current = 0;
+      const increment = Math.max(1, Math.floor(target / 40));
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        el.textContent = String(current) + (target === 34 ? "+" : "");
+      }, 30);
+    });
+  }
+
+  // ── Accordion – single-open behaviour ──
+  const accordion = document.getElementById("faq-accordion");
+  if (accordion) {
+    accordion.addEventListener("click", (e) => {
+      const summary = (e.target as HTMLElement).closest("summary");
+      if (!summary) return;
+      const parent = summary.parentElement as HTMLDetailsElement;
+      accordion.querySelectorAll<HTMLDetailsElement>("details[open]").forEach((d) => {
+        if (d !== parent) d.removeAttribute("open");
+      });
+    });
+  }
+
+  // ── Intersection observer for reveal + counter trigger ──
+  let countersDone = false;
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          if (!countersDone && entry.target.querySelector("[data-count]")) {
+            countersDone = true;
+            animateCounters();
+          }
+        }
+      });
+    },
+    { threshold: 0.12 },
+  );
+
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+</script>

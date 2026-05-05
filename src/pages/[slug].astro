@@ -1,10 +1,10 @@
 ---
-import { ArrowRight, CircleCheck } from "@lucide/astro";
+import { ArrowRight, Award, BookOpen, Box, Calendar, CheckCircle, ChevronRight, CircleCheck, Clock, Cog, Factory, Globe, GraduationCap, HeartHandshake, Layers, Package, Route, Shield, ShieldCheck, Truck, Wrench, Zap } from "@lucide/astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ProductCard from "@/components/ProductCard.astro";
 import PostCard from "@/components/PostCard.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
-import { getPostBySlug, getProductBySlug, posts, products } from "@/data/site";
+import { getPostBySlug, getProductBySlug, posts, products, site } from "@/data/site";
 
 export function getStaticPaths() {
   return [
@@ -23,105 +23,328 @@ if (!product && !post) {
 
 const relatedProducts = product ? products.filter((item) => item.slug !== product.slug) : products.slice(0, 3);
 const relatedPosts = post ? posts.filter((item) => item.slug !== post.slug).slice(0, 3) : posts.slice(0, 3);
+
+const capabilityIcons = [Wrench, ShieldCheck, Factory, Truck];
+const sysIcons: Record<string, any> = { hydraulic: Zap, lift: Layers, ring: Cog, control: Route, safety: Shield, clamp: Box, container: Package, climate: Globe, utility: Wrench, trailer: Truck, power: Zap, air: Globe };
 ---
 
 {
   product && (
-    <BaseLayout title={product.title} description={product.summary} image={product.photo}>
-      <section class="page-hero" style={`--page-image: url('${product.photo}')`}>
-        <div class="container reveal">
-          <nav class="breadcrumb" aria-label="Breadcrumb">
-            <a href="/">Home</a><span>/</span><a href="/products/">Products</a><span>/</span><span>{product.shortTitle}</span>
-          </nav>
-          <p class="eyebrow">{product.eyebrow}</p>
-          <h1>{product.title}</h1>
-          <p>{product.description}</p>
-          <div class="button-row">
-            <a class="button button-primary" href="/contact-us/">
-              Request Quote
-              <ArrowRight size={18} aria-hidden="true" />
-            </a>
-            <a class="button button-secondary" href="/products/">
-              Compare Models
-              <CircleCheck size={18} aria-hidden="true" />
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container product-detail">
-          <div class="reveal">
-            <SectionHeading
-              eyebrow={product.model}
-              title="Built for controlled run-flat disassembly and replacement."
-              body={product.summary}
-            />
-            <ul class="check-list">
-              {product.capabilities.map((item) => (
-                <li><CircleCheck size={17} aria-hidden="true" />{item}</li>
-              ))}
-            </ul>
+    <BaseLayout title={product.title} description={product.summary} image={product.heroImage}>
+      {/* ── Cinematic Hero — Full-bleed Image (UNTOUCHED structure, sharpened image) ── */}
+      <section class="product-hero" style={`--product-hero-image: url('${product.heroImage}')`}>
+        <div class="product-hero-inner">
+          <div class="product-hero-content reveal">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+              <a href="/">Home</a><span>/</span><a href="/products/">Products</a><span>/</span><span>{product.shortTitle}</span>
+            </nav>
+            <span class="product-hero-badge">{product.model}</span>
+            <p class="eyebrow">{product.eyebrow}</p>
+            <h1>{product.title}</h1>
+            <p class="product-hero-desc">{product.description}</p>
+            <div class="product-hero-actions">
+              <a class="button button-primary" href="/contact-us/">
+                Request Quote
+                <ArrowRight size={18} aria-hidden="true" />
+              </a>
+              <a class="button button-secondary" href="/products/">
+                Compare Models
+                <Wrench size={18} aria-hidden="true" />
+              </a>
+            </div>
+            <div class="product-hero-trust">
+              <span><ShieldCheck size={16} aria-hidden="true" /> {product.bestFor}</span>
+              <span><Factory size={16} aria-hidden="true" /> {product.environment}</span>
+              <span><Globe size={16} aria-hidden="true" /> {product.availability}</span>
+            </div>
           </div>
 
-          <div class="media-frame reveal">
-            <img src={product.image} alt={product.title} loading="lazy" />
-          </div>
-        </div>
-      </section>
-
-      <section class="section-tight">
-        <div class="container">
-          <div class="spec-grid reveal">
+          <div class="product-hero-specs-bar reveal" aria-label="Key specifications">
             {product.specs.map((spec) => (
-              <div class="spec">
-                <span>{spec.label}</span>
+              <div class="product-hero-spec">
                 <strong>{spec.value}</strong>
+                <span>{spec.label}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section class="section dark-band">
+      {/* ── Technical Overview — Immersive Narrative ── */}
+      <section class="section pdp-overview-section" id="overview">
         <div class="container">
-          <SectionHeading
-            eyebrow="Key features"
-            title="What this model brings into the maintenance workflow."
-            body="The product copy has been tightened around operational clarity, operator confidence, and deployment fit."
-          />
-          <div class="feature-grid">
-            {product.highlights.map((highlight) => (
-              <article class="feature-card reveal">
-                <div class="feature-icon"><CircleCheck size={22} aria-hidden="true" /></div>
-                <h3>{highlight}</h3>
-                <p>
-                  Supports the safe and efficient handling of heavy military run-flat tire assemblies during service,
-                  replacement, and reassembly tasks.
-                </p>
+          <div class="pdp-overview-layout reveal">
+            <div class="pdp-overview-copy">
+              <p class="eyebrow">{product.model} · Technical overview</p>
+              <h2>Engineering precision for<br/>mission-critical maintenance.</h2>
+              <p class="pdp-overview-text">{product.technicalOverview}</p>
+              <div class="pdp-overview-stats">
+                <div class="pdp-stat">
+                  <strong>16–27"</strong>
+                  <span>Rim range</span>
+                </div>
+                <div class="pdp-stat">
+                  <strong>2 yr</strong>
+                  <span>Warranty</span>
+                </div>
+                <div class="pdp-stat">
+                  <strong>15 yr</strong>
+                  <span>Spare parts</span>
+                </div>
+                <div class="pdp-stat">
+                  <strong>34+</strong>
+                  <span>Countries</span>
+                </div>
+              </div>
+            </div>
+            <div class="pdp-overview-visual">
+              <div class="pdp-overview-frame">
+                <img src={product.image} alt={product.title} loading="lazy" />
+                <div class="pdp-overview-frame-accent"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Operational Workflow — Interactive Timeline ── */}
+      <section class="section pdp-workflow-section" id="workflow">
+        <div class="pdp-workflow-bg" aria-hidden="true"></div>
+        <div class="pdp-workflow-grid-overlay" aria-hidden="true"></div>
+        <div class="container">
+          <div class="pdp-workflow-header reveal">
+            <p class="eyebrow">Operational workflow</p>
+            <h2>From wheel intake to<br/>verified reassembly.</h2>
+            <p class="pdp-workflow-subtitle">
+              A controlled, repeatable service cycle designed for operator safety and equipment protection at every stage.
+            </p>
+          </div>
+          <div class="pdp-workflow-timeline reveal">
+            {product.workflow.map((step, i) => (
+              <article class="pdp-workflow-step" style={`--step-delay: ${i * 80}ms`}>
+                <div class="pdp-workflow-step-marker">
+                  <span class="pdp-workflow-step-num">{step.step}</span>
+                  {i < product.workflow.length - 1 && <div class="pdp-workflow-step-line"></div>}
+                </div>
+                <div class="pdp-workflow-step-content">
+                  <h3>{step.title}</h3>
+                  <p>{step.detail}</p>
+                </div>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section class="section">
+      {/* ── Engineering Systems — Interactive Grid ── */}
+      <section class="section pdp-systems-section" id="systems">
         <div class="container">
-          <SectionHeading
-            eyebrow="Product visuals"
-            title="Machine presentation with real product assets."
-            body="The original machine imagery is reused because it clearly shows the equipment. The new layout improves framing, contrast, and buyer context."
-          />
-          <div class="gallery-grid reveal">
-            <img src={product.photo} alt={`${product.shortTitle} operational view`} loading="lazy" />
-            <img src="/assets/runflat-inserts.webp" alt="Run-flat insert disassembly and reassembly system" loading="lazy" />
+          <div class="pdp-systems-header reveal">
+            <p class="eyebrow">{product.model} · Engineering systems</p>
+            <h2>Core subsystems that define<br/>the maintenance workflow.</h2>
+          </div>
+          <div class="pdp-systems-grid reveal">
+            {product.engineeringSystems.map((sys, i) => {
+              const SysIcon = sysIcons[sys.icon] || Cog;
+              return (
+                <article class="pdp-system-card" style={`--sys-delay: ${i * 60}ms`}>
+                  <div class="pdp-system-card-glow"></div>
+                  <div class="pdp-system-icon">
+                    <SysIcon size={22} aria-hidden="true" />
+                  </div>
+                  <h3>{sys.title}</h3>
+                  <p>{sys.description}</p>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      <section class="section-tight">
+      {/* ── Compatible Vehicles — Marquee Band ── */}
+      <section class="pdp-vehicles-section" id="vehicles">
+        <div class="pdp-vehicles-inner">
+          <div class="container">
+            <div class="pdp-vehicles-header reveal">
+              <p class="eyebrow">Fleet compatibility</p>
+              <h2>Supports the full spectrum of NATO-standard<br/>military wheel assemblies.</h2>
+              <p>All GM Defensive run-flat machines accommodate rim sizes from 16 to 27 inches, covering the following vehicle families and equivalent platforms worldwide.</p>
+            </div>
+            <div class="pdp-vehicles-grid reveal">
+              {product.compatibleVehicles.map((vehicle) => (
+                <div class="pdp-vehicle-tag">
+                  <ShieldCheck size={14} aria-hidden="true" />
+                  <span>{vehicle}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Product Gallery — Cinematic Showcase ── */}
+      <section class="section pdp-gallery-section" id="gallery">
         <div class="container">
-          <SectionHeading eyebrow="Related models" title="Compare adjacent configurations." />
+          <div class="pdp-gallery-header reveal">
+            <p class="eyebrow">Product visuals</p>
+            <h2>Real equipment. Real operations.</h2>
+          </div>
+          {product.gallery && product.gallery.length >= 5 ? (
+            <div class="pdp-gallery-bento reveal">
+              <div class="pdp-bento-main">
+                <img src={product.gallery[0].src} alt={product.gallery[0].alt} loading="lazy" />
+                <div class="pdp-gallery-overlay"></div>
+                <div class="pdp-gallery-label">Full System View</div>
+              </div>
+              <div class="pdp-bento-mid-top">
+                <img src={product.gallery[1].src} alt={product.gallery[1].alt} loading="lazy" />
+                <div class="pdp-gallery-overlay"></div>
+                <div class="pdp-gallery-label">Front Detail</div>
+              </div>
+              <div class="pdp-bento-mid-bottom">
+                <img src={product.gallery[2].src} alt={product.gallery[2].alt} loading="lazy" />
+                <div class="pdp-gallery-overlay"></div>
+                <div class="pdp-gallery-label">Live Operation</div>
+              </div>
+              <div class="pdp-bento-sm-top">
+                <img src={product.gallery[3].src} alt={product.gallery[3].alt} loading="lazy" />
+                <div class="pdp-gallery-overlay"></div>
+                <div class="pdp-gallery-label">Production</div>
+              </div>
+              <div class="pdp-bento-sm-bottom">
+                <img src={product.gallery[4].src} alt={product.gallery[4].alt} loading="lazy" />
+                <div class="pdp-gallery-overlay"></div>
+                <div class="pdp-gallery-label">Field Deployment</div>
+              </div>
+            </div>
+          ) : (
+            <div class="pdp-gallery-grid reveal">
+              <div class="pdp-gallery-primary">
+                <img src={product.photo} alt={`${product.shortTitle} operational view`} loading="lazy" />
+                <div class="pdp-gallery-overlay"></div>
+                <div class="pdp-gallery-label">{product.shortTitle}</div>
+              </div>
+              <div class="pdp-gallery-secondary">
+                <img src="/assets/runflat-inserts.webp" alt="Run-flat insert disassembly and reassembly system" loading="lazy" />
+                <div class="pdp-gallery-overlay"></div>
+                <div class="pdp-gallery-label">Insert System</div>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── Technical Specifications Dashboard ── */}
+      <section class="section pdp-specs-section" id="specifications">
+        <div class="pdp-specs-bg" aria-hidden="true"></div>
+        <div class="pdp-specs-grid-lines" aria-hidden="true"></div>
+        <div class="container">
+          <div class="pdp-specs-header reveal">
+            <p class="eyebrow">Technical specifications</p>
+            <h2>{product.model} configuration data.</h2>
+          </div>
+          <div class="pdp-specs-dashboard reveal">
+            {product.dimensions.map((dim, i) => (
+              <div class="pdp-spec-tile" style={`--tile-delay: ${i * 50}ms`}>
+                <span class="pdp-spec-label">{dim.label}</span>
+                <strong class="pdp-spec-value">{dim.value}</strong>
+              </div>
+            ))}
+          </div>
+          <div class="pdp-certs-row reveal">
+            {product.certifications.map((cert) => (
+              <div class="pdp-cert-badge">
+                <Award size={14} aria-hidden="true" />
+                <span>{cert}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Logistics & Support — Four Pillars ── */}
+      <section class="section pdp-logistics-section" id="support">
+        <div class="container">
+          <div class="pdp-logistics-header reveal">
+            <p class="eyebrow">Lifecycle support</p>
+            <h2>From delivery to decade-long<br/>operational readiness.</h2>
+            <p>GM Defensive support extends far beyond the machine itself — covering installation, training, spare parts, warranty, and long-term operational planning.</p>
+          </div>
+          <div class="pdp-logistics-grid reveal">
+            {product.logistics.map((item, i) => {
+              const logIcons = [Truck, GraduationCap, Package, HeartHandshake];
+              const LogIcon = logIcons[i] || CheckCircle;
+              return (
+                <article class="pdp-logistics-card" style={`--log-delay: ${i * 80}ms`}>
+                  <div class="pdp-logistics-icon">
+                    <LogIcon size={22} aria-hidden="true" />
+                  </div>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </article>
+              );
+            })}
+          </div>
+          <div class="pdp-support-details reveal">
+            <div class="pdp-support-detail">
+              <Clock size={18} aria-hidden="true" />
+              <div>
+                <strong>Warranty</strong>
+                <p>{product.warrantyInfo}</p>
+              </div>
+            </div>
+            <div class="pdp-support-detail">
+              <BookOpen size={18} aria-hidden="true" />
+              <div>
+                <strong>Training</strong>
+                <p>{product.trainingInfo}</p>
+              </div>
+            </div>
+            <div class="pdp-support-detail">
+              <Calendar size={18} aria-hidden="true" />
+              <div>
+                <strong>Delivery</strong>
+                <p>{product.deliveryInfo}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Procurement CTA — Premium Band ── */}
+      <section class="section pdp-cta-section">
+        <div class="container">
+          <div class="pdp-cta-band reveal">
+            <div class="pdp-cta-glow" aria-hidden="true"></div>
+            <div class="pdp-cta-copy">
+              <p class="eyebrow">Ready to deploy</p>
+              <h2>Start your {product.shortTitle}<br/>procurement process.</h2>
+              <p>
+                Share your fleet details, operating environment, and requirements so the right
+                configuration can be evaluated for your team.
+              </p>
+            </div>
+            <div class="pdp-cta-actions">
+              <a class="button button-primary" href="/contact-us/">
+                Start Inquiry
+                <ArrowRight size={18} aria-hidden="true" />
+              </a>
+              <a class="button button-secondary" href="/products/">
+                Compare All Models
+                <ArrowRight size={18} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Related Models ── */}
+      <section class="section-tight product-related-section">
+        <div class="container">
+          <div class="section-row">
+            <SectionHeading eyebrow="Related models" title="Compare adjacent configurations." />
+            <a class="button button-light" href="/products/">View all models <ArrowRight size={18} aria-hidden="true" /></a>
+          </div>
           <div class="model-grid">
             {relatedProducts.map((item) => <ProductCard product={item} compact />)}
           </div>
@@ -132,7 +355,11 @@ const relatedPosts = post ? posts.filter((item) => item.slug !== post.slug).slic
 }
 
 {
-  post && (
+  post && (() => {
+    const wordCount = post.sections.reduce((acc, s) => acc + s.body.join(" ").split(/\s+/).length, 0);
+    const readingTime = Math.max(3, Math.ceil(wordCount / 220));
+    const formattedDate = new Date(`${post.date}T00:00:00`).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+    return (
     <BaseLayout title={post.title} description={post.excerpt} image={post.image}>
       <section class="page-hero" style={`--page-image: url('${post.image}')`}>
         <div class="container reveal">
@@ -142,42 +369,82 @@ const relatedPosts = post ? posts.filter((item) => item.slug !== post.slug).slic
           <p class="eyebrow">Run-flat resource</p>
           <h1>{post.title}</h1>
           <p>{post.excerpt}</p>
+          <div class="blog-post-meta-bar">
+            <span class="blog-post-meta-item">
+              <Calendar size={14} aria-hidden="true" />
+              {formattedDate}
+            </span>
+            <span class="blog-post-meta-item">
+              <Clock size={14} aria-hidden="true" />
+              {readingTime} min read
+            </span>
+            <span class="blog-post-meta-item">
+              <BookOpen size={14} aria-hidden="true" />
+              {post.sections.length} sections
+            </span>
+          </div>
         </div>
       </section>
 
-      <section class="section">
-        <div class="container product-detail">
-          <article class="article reveal">
-            {post.sections.map((section) => (
+      <section class="section blog-article-section">
+        <div class="container blog-article-layout">
+          <article class="blog-article reveal">
+            {post.sections.map((section, i) => (
               <>
+                <div class="blog-section-divider" id={`section-${i}`}>
+                  <span class="blog-section-num">{String(i + 1).padStart(2, "0")}</span>
+                </div>
                 <h2>{section.heading}</h2>
-                {section.body.map((paragraph) => <p>{paragraph}</p>)}
+                {section.body.map((paragraph) => <p set:html={paragraph} />)}
               </>
             ))}
           </article>
-          <aside class="article-aside contact-panel reveal">
-            <p class="eyebrow">Related procurement path</p>
-            <h3>Need a model recommendation?</h3>
-            <p>
-              Share your vehicle family, rim range, operating location, and expected service volume so the right
-              configuration can be evaluated.
-            </p>
-            <a class="button button-primary" href="/contact-us/">
-              Start Inquiry
-              <ArrowRight size={18} aria-hidden="true" />
-            </a>
+          <aside class="blog-sidebar reveal">
+            <div class="blog-toc-card">
+              <h4>In this article</h4>
+              <nav class="blog-toc-nav">
+                {post.sections.map((section, i) => (
+                  <a href={`#section-${i}`} class="blog-toc-link">
+                    <span class="blog-toc-num">{String(i + 1).padStart(2, "0")}</span>
+                    {section.heading}
+                  </a>
+                ))}
+              </nav>
+            </div>
+            <div class="blog-cta-card">
+              <p class="eyebrow">Related procurement path</p>
+              <h4>Need a model recommendation?</h4>
+              <p>
+                Share your vehicle family, rim range, operating location, and expected service volume so the right
+                configuration can be evaluated.
+              </p>
+              <a class="button button-primary" href="/contact-us/">
+                Start Inquiry
+                <ArrowRight size={18} aria-hidden="true" />
+              </a>
+            </div>
           </aside>
         </div>
       </section>
 
       <section class="section-tight">
         <div class="container">
-          <SectionHeading eyebrow="More resources" title="Continue reading." />
-          <div class="post-grid">
+          <div class="blog-related-header reveal">
+            <div>
+              <p class="eyebrow">More resources</p>
+              <h2>Continue reading.</h2>
+            </div>
+            <a class="button button-secondary" href="/blog/">
+              All Articles
+              <ArrowRight size={18} aria-hidden="true" />
+            </a>
+          </div>
+          <div class="post-grid reveal">
             {relatedPosts.map((item) => <PostCard post={item} />)}
           </div>
         </div>
       </section>
     </BaseLayout>
-  )
+    );
+  })()
 }

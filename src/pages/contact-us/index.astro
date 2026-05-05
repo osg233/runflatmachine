@@ -1,54 +1,154 @@
 ---
-import { CircleCheck, Mail, ShieldCheck } from "@lucide/astro";
+import { ArrowRight, CircleCheck, Mail, ShieldCheck, Globe, Clock, Headphones, ChevronDown } from "@lucide/astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
-import { assets, products } from "@/data/site";
+import { assets, products, site } from "@/data/site";
 ---
 
 <BaseLayout
   title="Contact Us"
   description="Contact GM Defensive about run-flat tire changer machines, model selection, delivery, training, and spare parts support."
-  image={assets.operation}
+  image={assets.contactHero}
 >
-  <section class="page-hero" style={`--page-image: url('${assets.operation}')`}>
-    <div class="container reveal">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a><span>/</span><span>Contact Us</span>
-      </nav>
-      <p class="eyebrow">Have questions?</p>
-      <h1>Get in touch.</h1>
-      <p>
-        Submit your information and the GM Defensive team can follow up on model fit, technical details, delivery,
-        training, and support requirements.
-      </p>
+  <!-- ══ Cinematic Hero ══ -->
+  <section class="contact-hero" style={`--contact-hero-img: url('${assets.contactHero}')`}>
+    <div class="contact-hero-grid-overlay" aria-hidden="true"></div>
+    <div class="contact-hero-vignette" aria-hidden="true"></div>
+
+    <!-- Floating particles -->
+    <div class="contact-hero-particles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="contact-hero-inner">
+      <div class="contact-hero-content reveal">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a><span>/</span><span>Contact Us</span>
+        </nav>
+        <span class="contact-hero-badge">Direct line to defense engineering</span>
+        <h1>Get in Touch<br />with the Team.</h1>
+        <p class="contact-hero-desc">
+          Submit your requirements and the GM Defensive engineering team will follow up on
+          model fit, technical specifications, delivery logistics, training, and long-term support.
+        </p>
+
+        <div class="contact-hero-stats">
+          <div class="contact-stat">
+            <strong data-count="34">0</strong>
+            <span>Country references</span>
+          </div>
+          <div class="contact-stat">
+            <strong data-count="48">0</strong>
+            <span>Hour response time</span>
+          </div>
+          <div class="contact-stat">
+            <strong data-count="3">0</strong>
+            <span>Machine models</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="contact-hero-scroll" aria-hidden="true">
+      <span></span>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container contact-grid">
-      <div class="reveal">
-        <SectionHeading
-          eyebrow="Buyer inquiry"
-          title="Make the first conversation technical."
-          body="For faster guidance, include vehicle family, rim size range, current maintenance workflow, expected service volume, and whether the machine will be workshop-based, containerized, or trailer-mounted."
-        />
-        <ul class="feature-list">
-          <li><CircleCheck size={18} aria-hidden="true" /> Model recommendation for GMR-023, GMH-098, or GMT-099.</li>
-          <li><CircleCheck size={18} aria-hidden="true" /> Deployment, setup, and operator training discussion.</li>
-          <li><CircleCheck size={18} aria-hidden="true" /> Warranty and long-term spare parts availability planning.</li>
+  <!-- ══ Trust Metrics Strip ══ -->
+  <section class="contact-trust-strip">
+    <div class="container reveal">
+      <div class="contact-trust-items">
+        <div class="contact-trust-item stagger-in">
+          <div class="contact-trust-icon"><Globe size={20} aria-hidden="true" /></div>
+          <div>
+            <strong>Worldwide delivery</strong>
+            <span>Logistics to any destination</span>
+          </div>
+        </div>
+        <div class="contact-trust-item stagger-in">
+          <div class="contact-trust-icon"><Clock size={20} aria-hidden="true" /></div>
+          <div>
+            <strong>Fast response</strong>
+            <span>Technical reply within 48 hours</span>
+          </div>
+        </div>
+        <div class="contact-trust-item stagger-in">
+          <div class="contact-trust-icon"><ShieldCheck size={20} aria-hidden="true" /></div>
+          <div>
+            <strong>2-year warranty</strong>
+            <span>Parts coverage included</span>
+          </div>
+        </div>
+        <div class="contact-trust-item stagger-in">
+          <div class="contact-trust-icon"><Headphones size={20} aria-hidden="true" /></div>
+          <div>
+            <strong>Dedicated support</strong>
+            <span>Training and spare parts</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Main Contact Section ══ -->
+  <section class="contact-main section">
+    <div class="container contact-main-grid">
+      <!-- Left: Info Column -->
+      <div class="contact-info reveal">
+        <p class="eyebrow">Buyer inquiry</p>
+        <h2>Make the first<br />conversation technical.</h2>
+        <p class="contact-info-desc">
+          For faster guidance, include vehicle family, rim size range, current maintenance
+          workflow, expected service volume, and whether the machine will be workshop-based,
+          containerized, or trailer-mounted.
+        </p>
+
+        <ul class="contact-check-list">
+          <li>
+            <CircleCheck size={18} aria-hidden="true" />
+            <span>Model recommendation for GMR-023, GMH-098, or GMT-099.</span>
+          </li>
+          <li>
+            <CircleCheck size={18} aria-hidden="true" />
+            <span>Deployment, setup, and operator training discussion.</span>
+          </li>
+          <li>
+            <CircleCheck size={18} aria-hidden="true" />
+            <span>Warranty and long-term spare parts availability planning.</span>
+          </li>
         </ul>
 
-        <div class="contact-panel" style="margin-top: 1.5rem;">
-          <div class="feature-icon"><ShieldCheck size={22} aria-hidden="true" /></div>
-          <h3>Procurement checklist</h3>
-          <p>
-            Fleet type, tire dimensions, rim format, operating region, delivery deadline, required documentation, and
-            operator training expectations.
-          </p>
+        <!-- Procurement checklist card -->
+        <div class="contact-checklist-card stagger-in">
+          <div class="contact-checklist-icon">
+            <ShieldCheck size={22} aria-hidden="true" />
+          </div>
+          <div>
+            <h3>Procurement checklist</h3>
+            <p>
+              Fleet type, tire dimensions, rim format, operating region, delivery deadline,
+              required documentation, and operator training expectations.
+            </p>
+          </div>
+        </div>
+
+        <!-- Direct Contact Info -->
+        <div class="contact-direct-info stagger-in">
+          <div class="contact-direct-row">
+            <Mail size={16} aria-hidden="true" />
+            <a href="mailto:info@gmdefensive.com">info@gmdefensive.com</a>
+          </div>
         </div>
       </div>
 
-      <form class="contact-panel reveal" name="runflat-inquiry" method="post" data-netlify="true">
+      <!-- Right: Form Column -->
+      <form class="contact-form-panel reveal" name="runflat-inquiry" method="post" data-netlify="true">
+        <div class="contact-form-header">
+          <h3>Submit your inquiry</h3>
+          <p>All fields ensure the team can route your request accurately.</p>
+        </div>
+
         <input type="hidden" name="form-name" value="runflat-inquiry" />
         <div class="form-grid">
           <div class="field">
@@ -80,14 +180,124 @@ import { assets, products } from "@/data/site";
             ></textarea>
           </div>
         </div>
-        <button class="button button-primary" type="submit" style="margin-top: 1rem;">
+        <a class="button button-primary contact-submit-btn" href="https://forms.monday.com/forms/embed/cd9a6cd707f6b226e4894d2b4952211c?r=euc1" target="_blank" rel="noopener noreferrer">
           Submit Inquiry
           <Mail size={18} aria-hidden="true" />
-        </button>
-        <p style="font-size: 0.88rem;">
+        </a>
+        <p class="contact-form-note">
           Include enough technical detail for the team to route the inquiry to the right model and support path.
         </p>
       </form>
     </div>
   </section>
+
+  <!-- ══ Model Quick-Reference Band ══ -->
+  <section class="contact-models-band section">
+    <div class="container reveal">
+      <SectionHeading
+        eyebrow="Not sure which model?"
+        title="Match your operating environment."
+        body="Each configuration serves a different deployment requirement."
+        align="center"
+      />
+      <div class="contact-model-cards">
+        {products.map((product) => (
+          <a class="contact-model-card stagger-in" href={product.href}>
+            <span class="contact-model-badge">{product.model}</span>
+            <h3>{product.shortTitle}</h3>
+            <p>{product.bestFor}</p>
+            <span class="contact-model-link">
+              View details <ArrowRight size={14} aria-hidden="true" />
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA Band ══ -->
+  <section class="contact-cta-band">
+    <div class="contact-cta-glow" aria-hidden="true"></div>
+    <div class="container reveal">
+      <div class="contact-cta-content">
+        <p class="eyebrow">Need a faster path?</p>
+        <h2>Let us build the technical recommendation.</h2>
+        <p>
+          Share the fleet profile, deployment model, and service timeline.
+          The engineering team will scope the right configuration.
+        </p>
+        <div class="contact-cta-actions">
+          <a class="button button-primary" href="/products/">
+            Compare Models
+            <ArrowRight size={18} aria-hidden="true" />
+          </a>
+          <a class="button button-secondary" href="/frequenty-asked-questions/">
+            Read FAQ
+            <ArrowRight size={18} aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
+
+<script>
+  // ── Counter animation ──
+  function animateCounters() {
+    const counters = document.querySelectorAll<HTMLElement>("[data-count]");
+    counters.forEach((el) => {
+      const target = parseInt(el.dataset.count || "0", 10);
+      let current = 0;
+      const increment = Math.max(1, Math.floor(target / 40));
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        // Add + suffix for 34 (countries) and "h" for hours
+        let suffix = "";
+        if (target === 34) suffix = "+";
+        if (target === 48) suffix = "h";
+        el.textContent = String(current) + suffix;
+      }, 30);
+    });
+  }
+
+  // ── Form focus ring animation ──
+  const formFields = document.querySelectorAll<HTMLElement>(".contact-form-panel .field input, .contact-form-panel .field textarea, .contact-form-panel .field select");
+  formFields.forEach((field) => {
+    field.addEventListener("focus", () => {
+      field.closest(".field")?.classList.add("field-active");
+    });
+    field.addEventListener("blur", () => {
+      field.closest(".field")?.classList.remove("field-active");
+    });
+  });
+
+  // ── Intersection observer for reveal + counter trigger ──
+  let countersDone = false;
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+
+          // Stagger children
+          const staggers = entry.target.querySelectorAll<HTMLElement>(".stagger-in");
+          staggers.forEach((el, i) => {
+            el.style.transitionDelay = `${i * 100}ms`;
+          });
+
+          if (!countersDone && entry.target.querySelector("[data-count]")) {
+            countersDone = true;
+            animateCounters();
+          }
+        }
+      });
+    },
+    { threshold: 0.12 },
+  );
+
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+</script>

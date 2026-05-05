@@ -7,11 +7,7 @@ type Props = {
 };
 
 const { post } = Astro.props;
-const formatted = new Intl.DateTimeFormat("en", {
-  year: "numeric",
-  month: "short",
-  day: "2-digit",
-}).format(new Date(`${post.date}T00:00:00`));
+const year = new Date(`${post.date}T00:00:00`).getFullYear();
 ---
 
 <article class="post-card reveal">
@@ -21,8 +17,7 @@ const formatted = new Intl.DateTimeFormat("en", {
   </a>
   <div class="post-body">
     <div class="post-meta">
-      <span>{formatted}</span>
-      <span>{post.author}</span>
+      <span>{year}</span>
     </div>
     <h3><a href={post.href}>{post.title}</a></h3>
     <p>{post.excerpt}</p>

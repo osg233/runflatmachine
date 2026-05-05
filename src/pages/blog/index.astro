@@ -1,9 +1,29 @@
 ---
-import { ArrowRight } from "@lucide/astro";
+import { ArrowRight, BookOpen, Clock, Tag } from "@lucide/astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostCard from "@/components/PostCard.astro";
-import SectionHeading from "@/components/SectionHeading.astro";
 import { posts } from "@/data/site";
+
+/* ── Mixed display order: interleave real photos with AI-generated ones ── */
+const displayOrder = [
+  "hmmwv-humvee-run-flat-tire-changer-guide",
+  "military-tire-disassembly",
+  "mrap-military-run-flat-tire-machine-guide",
+  "military-tire-disassemble-tool",
+  "stryker-apc-runflat-tire-replacement-machine",
+  "comparing-gm-run-flat-machine-with-others",
+  "hemtt-hutchinson-run-flat-insert-replacement-guide",
+  "5-keys-of-run-flat-changer-machines-for-armored-vehicles",
+  "run-flat-changer-guide-for-military-success",
+];
+const orderedPosts = displayOrder
+  .map((slug) => posts.find((p) => p.slug === slug))
+  .filter(Boolean) as typeof posts;
+/* Append any posts not in the display order */
+const remaining = posts.filter((p) => !displayOrder.includes(p.slug));
+const allPosts = [...orderedPosts, ...remaining];
+
+const totalArticles = allPosts.length;
 ---
 
 <BaseLayout
@@ -25,23 +45,48 @@ import { posts } from "@/data/site";
     </div>
   </section>
 
-  <section class="section">
+  <!-- ── Blog Stats Strip ── -->
+  <section class="blog-stats-strip">
     <div class="container">
-      <div class="split">
-        <SectionHeading
-          eyebrow="Run-flat machine insights"
-          title="Sitemap-backed articles, rebuilt for clarity."
-          body="The live sitemap contains five blog posts. The rebuild preserves those routes and improves the article structure for technical scanning."
-        />
-        <div class="button-row">
+      <div class="blog-stats-inner">
+        <div class="blog-stat-item">
+          <BookOpen size={16} aria-hidden="true" />
+          <strong>{totalArticles}</strong>
+          <span>Articles</span>
+        </div>
+        <div class="blog-stat-sep" aria-hidden="true"></div>
+        <div class="blog-stat-item">
+          <Tag size={16} aria-hidden="true" />
+          <strong>7</strong>
+          <span>Topics</span>
+        </div>
+        <div class="blog-stat-sep" aria-hidden="true"></div>
+        <div class="blog-stat-item">
+          <Clock size={16} aria-hidden="true" />
+          <strong>2024–2026</strong>
+          <span>Coverage</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Blog Grid ── -->
+  <section class="section blog-listing-section">
+    <div class="container">
+      <div class="blog-grid-header reveal">
+        <div class="blog-grid-copy">
+          <p class="eyebrow">Run-flat machine insights</p>
+          <h2>Expert articles on military<br/>run-flat tire systems.</h2>
+        </div>
+        <div class="blog-grid-actions">
           <a class="button button-primary" href="/contact-us/">
             Ask a Product Question
             <ArrowRight size={18} aria-hidden="true" />
           </a>
         </div>
       </div>
-      <div class="post-grid">
-        {posts.map((post) => <PostCard post={post} />)}
+      <div class="post-grid reveal">
+        {allPosts.map((post, i) => <PostCard post={post} />)}
       </div>
     </div>
   </section>

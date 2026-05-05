@@ -1,7 +1,6 @@
 ---
 import { ArrowRight, CircleCheck, Factory, Globe, ShieldCheck, Truck, Wrench } from "@lucide/astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import DeploymentMatrix from "@/components/DeploymentMatrix.astro";
 import ProductCard from "@/components/ProductCard.astro";
 import PostCard from "@/components/PostCard.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
@@ -52,170 +51,365 @@ import { assets, capabilities, posts, products, site } from "@/data/site";
     </div>
   </section>
 
-  <section class="section decision-section">
-    <div class="container deployment-section-grid">
-      <div class="decision-intro reveal">
+  <section class="section decision-section-v2" id="deployment-selector">
+    <div class="decision-v2-bg-glow"></div>
+    <div class="dv2-particles" aria-hidden="true">
+      <span class="dv2-particle" style="--x:12%;--y:18%;--delay:0s;--dur:18s"></span>
+      <span class="dv2-particle" style="--x:78%;--y:12%;--delay:2s;--dur:22s"></span>
+      <span class="dv2-particle" style="--x:35%;--y:82%;--delay:4s;--dur:20s"></span>
+      <span class="dv2-particle" style="--x:88%;--y:65%;--delay:1s;--dur:16s"></span>
+      <span class="dv2-particle" style="--x:55%;--y:40%;--delay:3s;--dur:24s"></span>
+      <span class="dv2-particle" style="--x:22%;--y:55%;--delay:5s;--dur:19s"></span>
+    </div>
+    <div class="container">
+      <div class="decision-v2-header reveal">
         <p class="eyebrow">Choose by deployment profile</p>
-        <h2>Match the run-flat workflow to the mission.</h2>
-        <p>
+        <h2>Match the run-flat workflow<br/>to the mission.</h2>
+        <p class="decision-v2-subtitle">
           Start with the operating environment, then choose the machine format that keeps tire service controlled,
           mobile, and ready for the fleet.
         </p>
-        <div class="deployment-profile-strip" aria-label="Deployment profile quick links">
+      </div>
+
+      <div class="decision-v2-tabs-wrapper reveal">
+        <div class="decision-v2-tabs" role="tablist" aria-label="Deployment model selector">
           {products.map((product, index) => (
-            <a href={product.href}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <strong>{product.shortTitle}</strong>
-              <small>{product.availability}</small>
-            </a>
+            <button
+              class={`decision-v2-tab ${index === 0 ? 'active' : ''}`}
+              role="tab"
+              aria-selected={index === 0 ? 'true' : 'false'}
+              data-tab-index={index}
+            >
+              <span class="tab-index">{String(index + 1).padStart(2, "0")}</span>
+              <span class="tab-label">{product.shortTitle}</span>
+              <span class="tab-meta">{product.availability}</span>
+            </button>
+          ))}
+          <div class="tab-indicator" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="decision-v2-showcase reveal">
+        <div class="decision-v2-visual">
+          {products.map((product, index) => (
+            <img
+              class={`decision-v2-image ${index === 0 ? 'active' : ''}`}
+              src={product.photo}
+              alt={`${product.shortTitle} deployment configuration`}
+              loading="eager"
+              data-image-index={index}
+            />
+          ))}
+        </div>
+
+        <div class="decision-v2-info-panel">
+          {products.map((product, index) => (
+            <div class={`decision-v2-panel ${index === 0 ? 'active' : ''}`} data-panel-index={index}>
+              <span class="panel-model">{product.model}</span>
+              <h3>{product.bestFor}</h3>
+              <p>{product.environment}</p>
+              <div class="panel-stats">
+                <div class="panel-stat">
+                  <strong>16–27"</strong>
+                  <span>Rim range</span>
+                </div>
+                <div class="panel-stat">
+                  <strong>{product.specs[0].value}</strong>
+                  <span>{product.specs[0].label}</span>
+                </div>
+              </div>
+              <ul class="panel-highlights">
+                {product.highlights.slice(0, 3).map((h, hi) => (
+                  <li style={`--stagger: ${hi}`}>
+                    <CircleCheck size={16} aria-hidden="true" />{h}
+                  </li>
+                ))}
+              </ul>
+              <a class="button button-primary panel-cta" href={product.href}>
+                Explore {product.shortTitle}
+                <ArrowRight size={18} aria-hidden="true" />
+              </a>
+            </div>
           ))}
         </div>
       </div>
 
-      <figure class="deployment-visual reveal">
-        <img
-          class="deployment-overview-image"
-          src="/assets/deployment-overview.jpg"
-          alt="GM Defensive workshop, container, and trailer run-flat machine deployment models"
-          loading="eager"
-        />
-      </figure>
-
-      <DeploymentMatrix />
-    </div>
-  </section>
-
-  <section class="section-tight">
-    <div class="container proof-strip reveal">
-      <div class="proof-item">
-        <ShieldCheck size={28} aria-hidden="true" />
-        <strong>Defense focused</strong>
-        <span>Military, police, gendarmerie, and armored vehicle fleets</span>
-      </div>
-      <div class="proof-item">
-        <Factory size={28} aria-hidden="true" />
-        <strong>Operational fit</strong>
-        <span>Depot, containerized, and field maintenance models</span>
-      </div>
-      <div class="proof-item">
-        <Truck size={28} aria-hidden="true" />
-        <strong>Fleet readiness</strong>
-        <span>Built to reduce downtime during run-flat service work</span>
-      </div>
-      <div class="proof-item">
-        <Globe size={28} aria-hidden="true" />
-        <strong>Global support</strong>
-        <span>Delivery, training, warranty, and spare parts planning</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="section story-section">
-    <div class="container split story-split">
-      <div class="reveal">
-        <SectionHeading
-          eyebrow="The maintenance problem"
-          title="Run-flat assemblies are mission critical and difficult to service manually."
-          body="Military run-flat tires help vehicles keep moving after damage, but changing those heavy assemblies requires controlled force, careful lifting, and repeatable process discipline."
-        />
-        <ul class="feature-list">
-          <li><CircleCheck size={18} aria-hidden="true" /> Supports run-flat removal and reinstallation for heavy-duty tire assemblies.</li>
-          <li><CircleCheck size={18} aria-hidden="true" /> Helps reduce manual strain and exposure during high-force maintenance steps.</li>
-          <li><CircleCheck size={18} aria-hidden="true" /> Fits fixed workshops, protected field sites, and mobile trailer operations.</li>
-        </ul>
-      </div>
-      <div class="media-frame annotated-media reveal">
-        <img src={assets.training} alt="Maintenance team servicing a heavy run-flat tire with GM equipment" loading="lazy" />
-        <div class="media-note top">Remote-controlled lifting</div>
-        <div class="media-note bottom">Operator training workflow</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section dark-band model-range">
-    <div class="container">
-      <div class="section-row">
-        <SectionHeading
-          eyebrow="Model range"
-          title="Three configurations, one controlled service workflow."
-          body="Choose the model around your operating environment: permanent workshop, deployable container, or road-mobile trailer."
-        />
-        <a class="button button-light" href="/products/">Compare all models <ArrowRight size={18} aria-hidden="true" /></a>
-      </div>
-      <div class="model-grid">
-        {products.map((product) => <ProductCard product={product} />)}
-      </div>
-    </div>
-  </section>
-
-  <section class="section capability-section">
-    <div class="container">
-      <div class="section-row">
-        <SectionHeading
-          eyebrow="Technical capability"
-          title="Purpose-built systems for heavy run-flat maintenance."
-          body="The redesigned experience brings the machine architecture forward, making it easier for buyers to understand how each system supports safer, faster fleet maintenance."
-        />
-        <div class="section-kpi reveal">
-          <strong>Process control</strong>
-          <span>lifting, removal, hydraulic force, training</span>
-        </div>
-      </div>
-      <div class="feature-grid">
-        {capabilities.map((capability, index) => {
-          const icons = [Wrench, ShieldCheck, Factory, Truck, CircleCheck, Globe];
-          const Icon = icons[index] || CircleCheck;
+      <div class="decision-v2-grid reveal">
+        {products.map((product, index) => {
+          const icons = [Factory, Truck, Globe];
+          const Icon = icons[index] || Factory;
           return (
-            <article class="feature-card reveal">
-              <div class="feature-icon"><Icon size={22} aria-hidden="true" /></div>
-              <span class="capability-number">{String(index + 1).padStart(2, "0")}</span>
-              <h3>{capability.title}</h3>
-              <p>{capability.body}</p>
-            </article>
+            <a class="decision-v2-card" href={product.href} data-card-index={index}>
+              <div class="dv2-card-glow"></div>
+              <div class="dv2-card-border-anim"></div>
+              <div class="dv2-card-header">
+                <span class="dv2-card-icon"><Icon size={20} aria-hidden="true" /></span>
+                <span class="dv2-card-model">{product.model}</span>
+              </div>
+              <h3>{product.bestFor}</h3>
+              <p>{product.environment}</p>
+              <div class="dv2-card-footer">
+                <span class="dv2-card-availability">{product.availability}</span>
+                <span class="dv2-card-arrow"><ArrowRight size={16} aria-hidden="true" /></span>
+              </div>
+            </a>
           );
         })}
       </div>
     </div>
   </section>
 
-  <section class="section dark-band">
-    <div class="container split">
-      <div class="media-frame reveal">
-        <img src={assets.operation} alt="Run-flat tire service operation in an industrial workshop" loading="lazy" />
+  <section class="proof-ribbon-section">
+    <div class="container">
+      <div class="proof-ribbon reveal" aria-label="Trust indicators">
+        <div class="proof-ribbon-item">
+          <ShieldCheck size={16} aria-hidden="true" />
+          <span>Defense focused</span>
+        </div>
+        <div class="proof-ribbon-sep" aria-hidden="true"></div>
+        <div class="proof-ribbon-item">
+          <Factory size={16} aria-hidden="true" />
+          <span>Operational fit</span>
+        </div>
+        <div class="proof-ribbon-sep" aria-hidden="true"></div>
+        <div class="proof-ribbon-item">
+          <Truck size={16} aria-hidden="true" />
+          <span>Fleet readiness</span>
+        </div>
+        <div class="proof-ribbon-sep" aria-hidden="true"></div>
+        <div class="proof-ribbon-item">
+          <Globe size={16} aria-hidden="true" />
+          <span>Global support</span>
+        </div>
       </div>
-      <div class="reveal">
-        <SectionHeading
-          eyebrow="Buyer confidence"
-          title="From model selection to operator training."
-          body="The purchase journey is framed around practical deployment: choosing the right configuration, preparing the site, training the maintenance crew, and supporting the fleet long after delivery."
-        />
-        <div class="process">
-          <div class="process-step">
-            <span>01</span>
-            <h3>Define Fleet</h3>
-            <p>Vehicle family, rim range, tire assembly type, and operating environment.</p>
-          </div>
-          <div class="process-step">
-            <span>02</span>
-            <h3>Select Model</h3>
-            <p>Workshop, container, or trailer configuration aligned to your deployment needs.</p>
-          </div>
-          <div class="process-step">
-            <span>03</span>
-            <h3>Train Team</h3>
-            <p>On-site setup and operator training for consistent run-flat service practice.</p>
-          </div>
-          <div class="process-step">
-            <span>04</span>
-            <h3>Support Fleet</h3>
-            <p>Warranty coverage and long-term spare parts planning for readiness.</p>
+    </div>
+  </section>
+
+  <section class="section story-section" id="maintenance-problem">
+    <div class="container">
+      <div class="story-hero reveal">
+        <div class="story-hero-media">
+          <img src={assets.training} alt="Military maintenance crew performing run-flat tire service with GM Defensive equipment in a workshop environment" loading="lazy" />
+          <div class="story-hero-overlay"></div>
+        </div>
+        <div class="story-hero-content">
+          <p class="eyebrow">The maintenance problem</p>
+          <h2>Heavy assemblies.<br/>Manual risk.<br/>Mission pressure.</h2>
+        </div>
+      </div>
+      <div class="story-detail-grid reveal">
+        <div class="story-narrative">
+          <p class="story-lead">Military run-flat tires keep armored vehicles mobile after damage — but servicing those assemblies demands controlled force, precision lifting, and repeatable discipline.</p>
+          <p>Without dedicated equipment, maintenance crews face excessive physical strain, unpredictable timelines, and inconsistent results across teams and operating environments.</p>
+        </div>
+        <div class="story-capabilities">
+          <ul class="feature-list">
+            <li><CircleCheck size={18} aria-hidden="true" /> Run-flat removal and reinstallation for heavy-duty tire assemblies</li>
+            <li><CircleCheck size={18} aria-hidden="true" /> Reduced manual strain during high-force maintenance steps</li>
+            <li><CircleCheck size={18} aria-hidden="true" /> Fits fixed workshops, field sites, and mobile trailer operations</li>
+          </ul>
+          <div class="story-stats">
+            <div class="story-stat">
+              <strong>16–27"</strong>
+              <span>Rim range coverage</span>
+            </div>
+            <div class="story-stat">
+              <strong>3</strong>
+              <span>Deployment configurations</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section dark-band model-range-compact">
+    <div class="container">
+      <div class="mrc-header reveal">
+        <div class="mrc-header-copy">
+          <p class="eyebrow">Model range</p>
+          <h2>Three configurations, one controlled service workflow.</h2>
+        </div>
+        <a class="button button-light" href="/products/">Compare all models <ArrowRight size={18} aria-hidden="true" /></a>
+      </div>
+
+      <div class="mrc-list reveal">
+        {products.map((product, i) => {
+          const envIcons = [Factory, Truck, Globe];
+          const EnvIcon = envIcons[i] || Factory;
+          return (
+            <a class="mrc-card" href={product.href}>
+              <div class="mrc-card-img">
+                <img src={product.image} alt={product.shortTitle} loading="lazy" />
+              </div>
+              <div class="mrc-card-info">
+                <span class="mrc-card-model">{product.model}</span>
+                <h3>{product.shortTitle}</h3>
+                <p>{product.summary}</p>
+              </div>
+              <div class="mrc-card-meta">
+                <div class="mrc-card-env">
+                  <EnvIcon size={16} aria-hidden="true" />
+                  <span>{product.bestFor}</span>
+                </div>
+                <div class="mrc-card-specs">
+                  {product.specs.slice(0, 2).map((spec) => (
+                    <div class="mrc-spec">
+                      <strong>{spec.value}</strong>
+                      <span>{spec.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div class="mrc-card-cta">
+                <span>View model</span>
+                <ArrowRight size={16} aria-hidden="true" />
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section cap-unified" id="technical-capability">
+    <div class="cap-unified-bg">
+      <img src="/assets/capability-hero.png" alt="Military maintenance crew changing a run-flat tire on an armored MRAP vehicle at a forward operating base" loading="lazy" />
+      <div class="cap-unified-overlay"></div>
+      <div class="cap-unified-scanlines" aria-hidden="true"></div>
+    </div>
+
+    <div class="cap-unified-corner cap-unified-corner--tl" aria-hidden="true"></div>
+    <div class="cap-unified-corner cap-unified-corner--tr" aria-hidden="true"></div>
+    <div class="cap-unified-corner cap-unified-corner--bl" aria-hidden="true"></div>
+    <div class="cap-unified-corner cap-unified-corner--br" aria-hidden="true"></div>
+
+    <div class="container cap-unified-content">
+      <div class="cap-unified-header reveal">
+        <p class="eyebrow">Technical capability</p>
+        <h2>Purpose-built systems<br/>for heavy run-flat<br/>maintenance.</h2>
+        <p class="cap-unified-sub">Each subsystem is engineered for one mission: safer, faster, and repeatable run-flat tire service across workshop, container, and field environments.</p>
+      </div>
+
+      <div class="cap-unified-bento reveal">
+        {capabilities.map((capability, index) => {
+          const icons = [Wrench, ShieldCheck, Factory, Truck, CircleCheck, Globe];
+          const Icon = icons[index] || CircleCheck;
+          const isFeature = index === 0;
+          return (
+            <article class={`cap-bento-card ${isFeature ? 'cap-bento-card--featured' : ''}`} style={`--card-i: ${index}; --card-delay: ${index * 100}ms`}>
+              <div class="cap-bento-card-visual">
+                <img src={capability.image} alt={capability.title} loading="lazy" />
+                <div class="cap-bento-card-visual-overlay"></div>
+              </div>
+              <div class="cap-bento-card-body">
+                <div class="cap-bento-card-icon">
+                  <Icon size={isFeature ? 22 : 18} aria-hidden="true" />
+                </div>
+                <h3>{capability.title}</h3>
+                <p>{capability.body}</p>
+              </div>
+              <div class="cap-bento-card-shine" aria-hidden="true"></div>
+            </article>
+          );
+        })}
+      </div>
+
+      <div class="cap-unified-stats-float reveal" aria-label="Engineering metrics">
+        <div class="cap-unified-stat">
+          <strong data-count="6">6</strong>
+          <span>Core subsystems</span>
+        </div>
+        <div class="cap-stats-divider" aria-hidden="true"></div>
+        <div class="cap-unified-stat">
+          <strong>16–27"</strong>
+          <span>Rim range</span>
+        </div>
+        <div class="cap-stats-divider" aria-hidden="true"></div>
+        <div class="cap-unified-stat">
+          <strong data-count="3">3</strong>
+          <span>Deployment modes</span>
+        </div>
+        <div class="cap-stats-divider" aria-hidden="true"></div>
+        <div class="cap-unified-stat">
+          <strong>360°</strong>
+          <span>Process control</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section journey-section" id="buyer-journey">
+    <div class="container">
+      <div class="journey-hero reveal">
+        <div class="journey-hero-copy">
+          <p class="eyebrow">Buyer confidence</p>
+          <h2>From model selection<br/>to operator training.</h2>
+          <p>A clear procurement path — define your fleet, choose the right configuration, and deploy with full training and long-term support.</p>
+        </div>
+        <div class="journey-hero-media">
+          <img src="/assets/journey-workshop.png" alt="Heavy-duty military run-flat tire positioned on GM Defensive maintenance equipment inside a workshop" loading="lazy" />
+          <div class="journey-hero-overlay"></div>
+        </div>
+      </div>
+
+      <div class="journey-steps reveal">
+        <article class="journey-card">
+          <div class="journey-card-img">
+            <img src="/assets/journey-define-fleet.png" alt="Military armored vehicle fleet formation at motor pool depot" loading="lazy" />
+            <div class="journey-card-img-overlay"></div>
+          </div>
+          <div class="journey-card-body">
+            <h3>Define Fleet</h3>
+            <p>Vehicle family, rim range, tire assembly type, and operating environment.</p>
+          </div>
+        </article>
+        <article class="journey-card">
+          <div class="journey-card-img">
+            <img src="/assets/journey-select-model.png" alt="Three run-flat machine configurations: workshop, container, and trailer" loading="lazy" />
+            <div class="journey-card-img-overlay"></div>
+          </div>
+          <div class="journey-card-body">
+            <h3>Select Model</h3>
+            <p>Workshop, container, or trailer — aligned to your deployment conditions.</p>
+          </div>
+        </article>
+        <article class="journey-card">
+          <div class="journey-card-img">
+            <img src="/assets/journey-train-team.png" alt="Military technicians receiving hands-on operator training on run-flat equipment" loading="lazy" />
+            <div class="journey-card-img-overlay"></div>
+          </div>
+          <div class="journey-card-body">
+            <h3>Train Team</h3>
+            <p>On-site setup, operator training, and documented service procedures.</p>
+          </div>
+        </article>
+        <article class="journey-card">
+          <div class="journey-card-img">
+            <img src="/assets/journey-support-fleet.png" alt="Organized military spare parts warehouse for long-term fleet readiness" loading="lazy" />
+            <div class="journey-card-img-overlay"></div>
+          </div>
+          <div class="journey-card-body">
+            <h3>Support Fleet</h3>
+            <p>Warranty coverage, spare parts planning, and long-term readiness support.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="journey-cta reveal">
+        <a class="button button-primary" href="/contact-us/">
+          Start Your Procurement
+          <ArrowRight size={18} aria-hidden="true" />
+        </a>
+        <a class="button button-secondary" href="/products/">
+          Compare Models
+          <ArrowRight size={18} aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section knowledge-section">
     <div class="container">
       <div class="split">
         <SectionHeading

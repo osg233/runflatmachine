@@ -4,67 +4,37 @@ import { products, site } from "@/data/site";
 ---
 
 <footer class="site-footer">
-  <section class="footer-cta reveal">
-    <div>
-      <p class="eyebrow">Procurement ready conversation</p>
-      <h2>Need to define the right run-flat changer configuration?</h2>
-      <p>
-        Share your fleet, rim range, deployment environment, and service workflow. GM Defensive can guide model selection,
-        delivery, training, and spare parts planning.
-      </p>
-    </div>
-    <a class="button button-light" href="/contact-us/">
-      Start Inquiry
-      <ArrowRight size={18} aria-hidden="true" />
-    </a>
-  </section>
-
-  <div class="footer-main">
-    <div class="footer-brand">
-      <a href="/" aria-label="Run Flat Machine home">
+  <div class="footer-split">
+    <!-- LEFT COLUMN: Brand + Nav + Copyright -->
+    <div class="footer-left">
+      <a href="/" class="footer-logo" aria-label="Run Flat Machine home">
         <img src="/assets/logo.png" alt="Run Flat Machine" width="160" height="69" />
       </a>
-      <p>
-        Run-flat tire changer machines for armored vehicle, military truck, police, gendarmerie, and defense maintenance
-        operations.
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="/">Home</a>
+        <a href="/products/">Products</a>
+        <a href="/frequenty-asked-questions/">FAQ</a>
+        <a href="/blog/">Blog</a>
+        <a href="/contact-us/">Contact Us</a>
+      </nav>
+
+      <p class="footer-copyright">
+        &copy; Copyright - {new Date().getFullYear()} | All rights reserved.
       </p>
-      <a class="footer-link" href={site.external} target="_blank" rel="noreferrer">
-        Visit GM Defensive
+    </div>
+
+    <!-- RIGHT COLUMN: Description + CTA -->
+    <div class="footer-right">
+      <p class="footer-desc">
+        Explore GM Defensive's innovative Run-Flat Changer Machine for military and armored vehicles. 
+        Experience enhanced efficiency, safety, and quality assurance.
+      </p>
+
+      <a class="footer-cta-btn" href={site.external} target="_blank" rel="noreferrer">
+        Visit GM DEFENSIVE Today!
         <ExternalLink size={16} aria-hidden="true" />
       </a>
     </div>
-
-    <div>
-      <h3>Navigation</h3>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/products/">Products</a></li>
-        <li><a href="/frequenty-asked-questions/">FAQ</a></li>
-        <li><a href="/blog/">Blog</a></li>
-        <li><a href="/contact-us/">Contact Us</a></li>
-      </ul>
-    </div>
-
-    <div>
-      <h3>Models</h3>
-      <ul>
-        {products.map((product) => <li><a href={product.href}>{product.shortTitle}</a></li>)}
-      </ul>
-    </div>
-
-    <div>
-      <h3>Sitemap</h3>
-      <ul>
-        <li><a href="/sitemap_index.xml">Sitemap Index</a></li>
-        <li><a href="/page-sitemap.xml">Page Sitemap</a></li>
-        <li><a href="/product-sitemap.xml">Product Sitemap</a></li>
-        <li><a href="/post-sitemap.xml">Post Sitemap</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <span>Copyright {new Date().getFullYear()} GM Defensive. All rights reserved.</span>
-    <span>Premium rebuild based on live sitemap and public content.</span>
   </div>
 </footer>

@@ -1,10 +1,12 @@
 ---
-import { ArrowRight, CircleCheck } from "@lucide/astro";
+import { ArrowRight, Award, Building2, CheckCircle, CircleCheck, Container, Factory, Globe, Layers, Route, Shield, ShieldCheck, Truck, Wrench, Zap } from "@lucide/astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import DeploymentMatrix from "@/components/DeploymentMatrix.astro";
 import ProductCard from "@/components/ProductCard.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
-import { assets, capabilities, products } from "@/data/site";
+import { assets, capabilities, products, site } from "@/data/site";
+
+const capIcons = [Wrench, ShieldCheck, Factory, Truck, CircleCheck, Globe];
 ---
 
 <BaseLayout
@@ -12,38 +14,49 @@ import { assets, capabilities, products } from "@/data/site";
   description="Compare GM Defensive run-flat tire changer machines for workshop, container, and trailer deployments."
   image="/assets/gmr-023-products.webp"
 >
-  <section class="page-hero" style={`--page-image: url('${assets.operation}')`}>
-    <div class="container reveal">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Home</a><span>/</span><span>Products</span>
-      </nav>
-      <p class="eyebrow">Run-flat changer models</p>
-      <h1>Products</h1>
-      <p>
-        A focused model family for defense maintenance teams that need safer, faster run-flat tire service across depot,
-        protected field, and mobile operations.
-      </p>
-      <div class="button-row">
-        <a class="button button-primary" href="/contact-us/">
-          Request Model Guidance
-          <ArrowRight size={18} aria-hidden="true" />
-        </a>
+  {/* ── Cinematic Hero — Full-bleed Image (UNTOUCHED STRUCTURE) ── */}
+  <section class="product-hero products-hero" style="--product-hero-image: url('/assets/hero-products-depot.png')">
+    <div class="product-hero-inner">
+      <div class="product-hero-content reveal">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a><span>/</span><span>Products</span>
+        </nav>
+        <p class="eyebrow">Run-flat changer models</p>
+        <h1>Three machines.<br/>One mission.</h1>
+        <p class="product-hero-desc">
+          A focused model family for defense maintenance teams that need safer, faster run-flat tire service across depot,
+          protected field, and mobile operations.
+        </p>
+        <div class="product-hero-actions">
+          <a class="button button-primary" href="/contact-us/">
+            Request Model Guidance
+            <ArrowRight size={18} aria-hidden="true" />
+          </a>
+          <a class="button button-secondary" href="#model-family">
+            Explore Models
+            <Wrench size={18} aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+
+      <div class="product-hero-specs-bar reveal" aria-label="Business proof points">
+        {site.metrics.map((metric) => (
+          <div class="product-hero-spec">
+            <strong>{metric.value}</strong>
+            <span>{metric.label}</span>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <section class="section">
+  {/* ── Model Family — Interactive Selector ── */}
+  <section class="section pdp-model-family-section" id="model-family">
     <div class="container">
-      <div class="section-row">
-        <SectionHeading
-          eyebrow="Model family"
-          title="Select by operating environment."
-          body="The existing sitemap places the product models under Products. This rebuild keeps that hierarchy and makes the differences clear for international buyers."
-        />
-        <div class="section-kpi reveal">
-          <strong>3 formats</strong>
-          <span>same maintenance objective, different deployment profile</span>
-        </div>
+      <div class="pdp-model-header reveal">
+        <p class="eyebrow">Model family</p>
+        <h2>Select by operating environment.</h2>
+        <p class="pdp-model-subtitle">Three deployment configurations, each built around the same controlled run-flat service workflow — choose by where your fleet operates.</p>
       </div>
       <DeploymentMatrix />
       <div class="model-grid">
@@ -52,71 +65,235 @@ import { assets, capabilities, products } from "@/data/site";
     </div>
   </section>
 
-  <section class="section-tight">
+  {/* ── Side-by-Side Comparison — Premium Table ── */}
+  <section class="section pdp-comparison-section">
+    <div class="pdp-comparison-bg" aria-hidden="true"></div>
+    <div class="pdp-comparison-grid-lines" aria-hidden="true"></div>
     <div class="container">
-      <SectionHeading
-        eyebrow="Comparison"
-        title="Run-flat machine configuration overview."
-        body="Each model serves the same core maintenance objective, but the deployment format changes how and where it supports the fleet."
-      />
-      <table class="compare-table reveal">
-        <thead>
-          <tr>
-            <th>Model</th>
-            <th>Best For</th>
-            <th>Environment</th>
-            <th>Primary Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
+      <div class="pdp-comparison-header reveal">
+        <p class="eyebrow">Model comparison</p>
+        <h2>Evaluate every configuration<br/>at a glance.</h2>
+        <p>Each model serves the same core maintenance objective. The deployment format changes how and where it supports the fleet.</p>
+      </div>
+      <div class="pdp-comparison-table-wrap reveal">
+        <table class="pdp-compare-table">
+          <thead>
             <tr>
-              <td data-label="Model"><strong><a href={product.href}>{product.shortTitle}</a></strong></td>
-              <td data-label="Best For">{product.bestFor}</td>
-              <td data-label="Environment">{product.environment}</td>
-              <td data-label="Primary Value">{product.summary}</td>
+              <th>Specification</th>
+              {products.map((p) => (
+                <th><a href={p.href}>{p.shortTitle}</a></th>
+              ))}
             </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Specification"><strong>Configuration</strong></td>
+              <td data-label="GMR-023">Workshop machine</td>
+              <td data-label="GMH-098">20-foot ISO container</td>
+              <td data-label="GMT-099">Trailer-mounted platform</td>
+            </tr>
+            <tr>
+              <td data-label="Specification"><strong>Best For</strong></td>
+              {products.map((p) => <td data-label={p.model}>{p.bestFor}</td>)}
+            </tr>
+            <tr>
+              <td data-label="Specification"><strong>Environment</strong></td>
+              {products.map((p) => <td data-label={p.model}>{p.environment}</td>)}
+            </tr>
+            <tr>
+              <td data-label="Specification"><strong>Rim Range</strong></td>
+              <td data-label="GMR-023">16–27 inches</td>
+              <td data-label="GMH-098">16–27 inches</td>
+              <td data-label="GMT-099">16–27 inches</td>
+            </tr>
+            <tr>
+              <td data-label="Specification"><strong>Controls</strong></td>
+              <td data-label="GMR-023">Joystick + Radio Remote</td>
+              <td data-label="GMH-098">Joystick + Radio Remote</td>
+              <td data-label="GMT-099">Joystick + Radio Remote</td>
+            </tr>
+            <tr>
+              <td data-label="Specification"><strong>Power Source</strong></td>
+              <td data-label="GMR-023">Facility supply (380V)</td>
+              <td data-label="GMH-098">External connection</td>
+              <td data-label="GMT-099">Onboard generator</td>
+            </tr>
+            <tr>
+              <td data-label="Specification"><strong>Climate Control</strong></td>
+              <td data-label="GMR-023">Facility HVAC</td>
+              <td data-label="GMH-098">HVAC-ready provisions</td>
+              <td data-label="GMT-099">Open-air / cover options</td>
+            </tr>
+            <tr>
+              <td data-label="Specification"><strong>Mobility</strong></td>
+              <td data-label="GMR-023">Fixed installation</td>
+              <td data-label="GMH-098">Relocatable by truck/rail/sea</td>
+              <td data-label="GMT-099">Road-towable, rapid deploy</td>
+            </tr>
+            <tr>
+              <td data-label="Specification"><strong>Safety Systems</strong></td>
+              <td data-label="GMR-023">Emergency stop on all interfaces</td>
+              <td data-label="GMH-098">Emergency stop on all interfaces</td>
+              <td data-label="GMT-099">Emergency stop on all interfaces</td>
+            </tr>
+            <tr>
+              <td data-label="Specification"><strong>Warranty</strong></td>
+              <td data-label="GMR-023">2 years standard</td>
+              <td data-label="GMH-098">2 years standard</td>
+              <td data-label="GMT-099">2 years standard</td>
+            </tr>
+            <tr>
+              <td data-label="Specification"><strong>Spare Parts</strong></td>
+              <td data-label="GMR-023">15-year availability</td>
+              <td data-label="GMH-098">15-year availability</td>
+              <td data-label="GMT-099">15-year availability</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  {/* ── Compatible Vehicles Band ── */}
+  <section class="pdp-vehicles-section">
+    <div class="pdp-vehicles-inner">
+      <div class="container">
+        <div class="pdp-vehicles-header reveal">
+          <p class="eyebrow">Fleet compatibility</p>
+          <h2>One machine family for the full spectrum<br/>of NATO-standard wheel assemblies.</h2>
+          <p>All three GM Defensive models accommodate rim sizes from 16 to 27 inches, covering major military and armored vehicle platforms worldwide.</p>
+        </div>
+        <div class="pdp-vehicles-grid reveal">
+          {products[0].compatibleVehicles.map((vehicle) => (
+            <div class="pdp-vehicle-tag">
+              <ShieldCheck size={14} aria-hidden="true" />
+              <span>{vehicle}</span>
+            </div>
           ))}
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="section dark-band">
-    <div class="container split">
-      <div class="reveal">
-        <SectionHeading
-          eyebrow="Why choose GM Defensive"
-          title="A technical product story built around readiness."
-          body="The public content emphasizes productivity, safety, quality assurance, worldwide delivery, on-site training, and warranty-backed support. The redesign organizes those points into a buyer-friendly evaluation flow."
-        />
-        <ul class="feature-list">
-          <li><CircleCheck size={18} aria-hidden="true" /> Improved productivity for heavy run-flat tire changes.</li>
-          <li><CircleCheck size={18} aria-hidden="true" /> Enhanced operator safety through controlled lifting and remote operation.</li>
-          <li><CircleCheck size={18} aria-hidden="true" /> Quality assurance, training, warranty, and long-term parts planning.</li>
-        </ul>
-      </div>
-      <div class="media-frame reveal">
-        <img src="/assets/runflat-machine-4.webp" alt="Run-flat changer hydraulic system and machine detail" loading="eager" />
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section">
+  {/* ── Why GM Defensive — Immersive Dark Band ── */}
+  <section class="section pdp-why-section">
+    <div class="pdp-why-bg-glow" aria-hidden="true"></div>
+    <div class="pdp-why-grid-lines" aria-hidden="true"></div>
     <div class="container">
-      <SectionHeading
-        eyebrow="Core systems"
-        title="The components buyers should evaluate."
-        body="The same capability language appears throughout the product family so procurement teams can compare deployment models without losing sight of the operating workflow."
-      />
-      <div class="feature-grid">
-        {capabilities.map((item) => (
-          <article class="feature-card reveal">
-            <div class="feature-icon"><CircleCheck size={22} aria-hidden="true" /></div>
-            <h3>{item.title}</h3>
-            <p>{item.body}</p>
-          </article>
-        ))}
+      <div class="pdp-why-layout reveal">
+        <div class="pdp-why-copy">
+          <p class="eyebrow">Why choose GM Defensive</p>
+          <h2>A technical product story<br/>built around readiness.</h2>
+          <p>
+            The public content emphasizes productivity, safety, quality assurance, worldwide delivery, on-site training, and warranty-backed support.
+          </p>
+          <ul class="pdp-why-list">
+            <li>
+              <CircleCheck size={18} aria-hidden="true" />
+              <span>Improved productivity for heavy run-flat tire changes.</span>
+            </li>
+            <li>
+              <CircleCheck size={18} aria-hidden="true" />
+              <span>Enhanced operator safety through controlled lifting and remote operation.</span>
+            </li>
+            <li>
+              <CircleCheck size={18} aria-hidden="true" />
+              <span>Quality assurance, training, warranty, and long-term parts planning.</span>
+            </li>
+            <li>
+              <CircleCheck size={18} aria-hidden="true" />
+              <span>34+ country references across defense and security forces worldwide.</span>
+            </li>
+          </ul>
+          <a class="button button-primary" href="/contact-us/">
+            Start Procurement
+            <ArrowRight size={18} aria-hidden="true" />
+          </a>
+        </div>
+        <div class="pdp-why-visual">
+          <div class="pdp-why-img-frame">
+            <img src="/assets/runflat-machine-4.webp" alt="Run-flat changer hydraulic system and machine detail" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── Core Systems — Interactive Feature Grid ── */}
+  <section class="section pdp-core-systems-section">
+    <div class="container">
+      <div class="pdp-core-header reveal">
+        <p class="eyebrow">Core systems</p>
+        <h2>The components buyers<br/>should evaluate.</h2>
+        <p>The same capability language appears throughout the product family so procurement teams can compare deployment models without losing sight of the operating workflow.</p>
+      </div>
+      <div class="pdp-core-grid reveal">
+        {capabilities.map((item, index) => {
+          const Icon = capIcons[index] || CircleCheck;
+          return (
+            <article class="pdp-core-card" style={`--core-delay: ${index * 70}ms`}>
+              <div class="pdp-core-icon">
+                <Icon size={22} aria-hidden="true" />
+              </div>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  {/* ── Lifecycle Support Band ── */}
+  <section class="section pdp-lifecycle-section">
+    <div class="container">
+      <div class="pdp-lifecycle-header reveal">
+        <p class="eyebrow">Lifecycle support</p>
+        <h2>Beyond the machine —<br/>decade-long partnership.</h2>
+      </div>
+      <div class="pdp-lifecycle-grid reveal">
+        <div class="pdp-lifecycle-card">
+          <Truck size={22} aria-hidden="true" />
+          <h3>Worldwide Delivery</h3>
+          <p>Complete delivery, installation, and commissioning to any location globally. Standard logistics or military transport compatible.</p>
+        </div>
+        <div class="pdp-lifecycle-card">
+          <Shield size={22} aria-hidden="true" />
+          <h3>2-Year Warranty</h3>
+          <p>Comprehensive warranty covering all mechanical, hydraulic, and electronic components under normal operating conditions.</p>
+        </div>
+        <div class="pdp-lifecycle-card">
+          <Layers size={22} aria-hidden="true" />
+          <h3>15-Year Spare Parts</h3>
+          <p>Long-term spare parts availability with pre-configured critical spares kits for sustained operational readiness.</p>
+        </div>
+        <div class="pdp-lifecycle-card">
+          <Award size={22} aria-hidden="true" />
+          <h3>On-Site Training</h3>
+          <p>Comprehensive operator training with hands-on practice sessions using actual fleet wheel assemblies.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ── Final CTA ── */}
+  <section class="section pdp-final-cta-section">
+    <div class="container">
+      <div class="pdp-final-cta reveal">
+        <div class="pdp-final-cta-glow" aria-hidden="true"></div>
+        <p class="eyebrow">Ready to evaluate?</p>
+        <h2>Get model guidance based on<br/>your fleet and operating environment.</h2>
+        <p>Share your vehicle inventory, operating conditions, and service requirements for a tailored configuration recommendation.</p>
+        <div class="pdp-final-cta-actions">
+          <a class="button button-primary" href="/contact-us/">
+            Start Inquiry
+            <ArrowRight size={18} aria-hidden="true" />
+          </a>
+          <a class="button button-secondary" href="/frequenty-asked-questions/">
+            Read FAQ
+            <ArrowRight size={18} aria-hidden="true" />
+          </a>
+        </div>
       </div>
     </div>
   </section>
