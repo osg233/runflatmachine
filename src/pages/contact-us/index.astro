@@ -143,51 +143,22 @@ import { assets, products, site } from "@/data/site";
       </div>
 
       <!-- Right: Form Column -->
-      <form class="contact-form-panel reveal" name="runflat-inquiry" method="post" data-netlify="true">
+      <div class="contact-form-panel reveal">
         <div class="contact-form-header">
           <h3>Submit your inquiry</h3>
-          <p>All fields ensure the team can route your request accurately.</p>
+          <p>Fill in the form below and our engineering team will follow up.</p>
         </div>
-
-        <input type="hidden" name="form-name" value="runflat-inquiry" />
-        <div class="form-grid">
-          <div class="field">
-            <label for="name">Full name</label>
-            <input id="name" name="name" autocomplete="name" required />
-          </div>
-          <div class="field">
-            <label for="email">Business email</label>
-            <input id="email" name="email" type="email" autocomplete="email" required />
-          </div>
-          <div class="field">
-            <label for="company">Organization</label>
-            <input id="company" name="company" autocomplete="organization" />
-          </div>
-          <div class="field">
-            <label for="model">Model interest</label>
-            <select id="model" name="model">
-              <option value="Model guidance">Model guidance</option>
-              {products.map((product) => <option value={product.shortTitle}>{product.shortTitle}</option>)}
-            </select>
-          </div>
-          <div class="field full">
-            <label for="message">Technical requirement</label>
-            <textarea
-              id="message"
-              name="message"
-              placeholder="Fleet type, rim range, deployment environment, timeline, and support needs"
-              required
-            ></textarea>
-          </div>
+        <div class="contact-embed-wrap">
+          <iframe
+            src="https://forms.monday.com/forms/embed/cd9a6cd707f6b226e4894d2b4952211c?r=euc1"
+            width="100%"
+            height="580"
+            style="border: 0;"
+            title="Submit Inquiry Form"
+            loading="lazy"
+          ></iframe>
         </div>
-        <a class="button button-primary contact-submit-btn" href="https://forms.monday.com/forms/embed/cd9a6cd707f6b226e4894d2b4952211c?r=euc1" target="_blank" rel="noopener noreferrer">
-          Submit Inquiry
-          <Mail size={18} aria-hidden="true" />
-        </a>
-        <p class="contact-form-note">
-          Include enough technical detail for the team to route the inquiry to the right model and support path.
-        </p>
-      </form>
+      </div>
     </div>
   </section>
 

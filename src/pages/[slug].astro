@@ -361,7 +361,7 @@ const sysIcons: Record<string, any> = { hydraulic: Zap, lift: Layers, ring: Cog,
     const formattedDate = new Date(`${post.date}T00:00:00`).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
     return (
     <BaseLayout title={post.title} description={post.excerpt} image={post.image}>
-      <section class="page-hero" style={`--page-image: url('${post.image}')`}>
+      <section class="page-hero blog-post-hero" style={`--page-image: url('${post.image}')`}>
         <div class="container reveal">
           <nav class="breadcrumb" aria-label="Breadcrumb">
             <a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span>{post.title}</span>
@@ -395,7 +395,12 @@ const sysIcons: Record<string, any> = { hydraulic: Zap, lift: Layers, ring: Cog,
                   <span class="blog-section-num">{String(i + 1).padStart(2, "0")}</span>
                 </div>
                 <h2>{section.heading}</h2>
-                {section.body.map((paragraph) => <p set:html={paragraph} />)}
+                {section.body.map((paragraph) => {
+                  const hasBlock = paragraph.includes("<h3") || paragraph.includes("<ul") || paragraph.includes("<ol") || paragraph.includes("<table") || paragraph.includes("<div") || paragraph.includes("<blockquote");
+                  return hasBlock
+                    ? <div class="blog-rich-block" set:html={paragraph} />
+                    : <p set:html={paragraph} />;
+                })}
               </>
             ))}
           </article>
