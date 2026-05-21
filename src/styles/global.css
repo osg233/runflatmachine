@@ -6456,3 +6456,198 @@ h3 {
     min-height: 220px;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   SCROLL DARKENING — sections darken as they scroll past
+   ══════════════════════════════════════════════════════════════ */
+
+.scroll-darken-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 60ms linear;
+  will-change: opacity;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SCROLL-TRIGGERED SECTION GRADIENT TRANSITIONS
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Gradient sweep keyframes ── */
+@keyframes sectionGradientSweepUp {
+  0%   { opacity: 0; transform: translateY(60px) scaleX(0.8); }
+  20%  { opacity: 1; }
+  75%  { opacity: 0.85; }
+  100% { opacity: 0; transform: translateY(-80px) scaleX(1.1); }
+}
+
+@keyframes sectionGlowPulse {
+  0%   { opacity: 0; transform: scale(0.75); }
+  30%  { opacity: 1; }
+  70%  { opacity: 0.8; }
+  100% { opacity: 0; transform: scale(1.25); }
+}
+
+@keyframes sectionBorderScan {
+  0%   { background-position: 200% center; opacity: 0; }
+  15%  { opacity: 1; }
+  100% { background-position: -200% center; opacity: 0; }
+}
+
+/* ── Base pseudo-layer for all sections ── */
+[data-sg]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 80ms ease;
+}
+
+/* ── Gradient wave element (injected by JS) ── */
+.sg-wave {
+  position: absolute;
+  left: -5%;
+  width: 110%;
+  height: 500px;
+  pointer-events: none;
+  z-index: 2;
+  border-radius: 50%;
+  opacity: 0;
+  filter: blur(28px);
+  will-change: transform, opacity;
+}
+
+/* Light-section wave — warm amber/teal */
+[data-sg="light"] .sg-wave {
+  bottom: -80px;
+  background: radial-gradient(
+    ellipse 90% 70% at 50% 100%,
+    rgba(185, 154, 97, 0.55) 0%,
+    rgba(49, 86, 79, 0.30) 40%,
+    transparent 72%
+  );
+}
+
+/* Dark-section wave — electric teal/champagne */
+[data-sg="dark"] .sg-wave {
+  bottom: -100px;
+  background: radial-gradient(
+    ellipse 90% 70% at 50% 100%,
+    rgba(93, 131, 137, 0.65) 0%,
+    rgba(185, 154, 97, 0.40) 38%,
+    transparent 68%
+  );
+}
+
+/* Story / narrative section wave — muted warm */
+[data-sg="warm"] .sg-wave {
+  bottom: -80px;
+  background: radial-gradient(
+    ellipse 85% 65% at 50% 100%,
+    rgba(185, 154, 97, 0.50) 0%,
+    rgba(234, 215, 170, 0.30) 45%,
+    transparent 70%
+  );
+}
+
+/* ── Active state: play the sweep animation ── */
+[data-sg].sg-active .sg-wave {
+  animation: sectionGradientSweepUp 2.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ── Glowing top-border scan line ── */
+.sg-scan {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  box-shadow: 0 0 12px 2px rgba(185, 154, 97, 0.6);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--amber) 25%,
+    #fff 50%,
+    var(--steel) 65%,
+    var(--amber) 80%,
+    transparent 100%
+  );
+  background-size: 200% auto;
+}
+
+[data-sg="dark"] .sg-scan {
+  box-shadow: 0 0 16px 3px rgba(93, 131, 137, 0.7);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(93, 131, 137, 1) 25%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(185, 154, 97, 1) 75%,
+    transparent 100%
+  );
+  background-size: 200% auto;
+}
+
+[data-sg].sg-active .sg-scan {
+  animation: sectionBorderScan 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.05s forwards;
+}
+
+/* ── Corner accent glows ── */
+.sg-corner-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  filter: blur(50px);
+  will-change: opacity, transform;
+}
+
+.sg-corner-glow--left {
+  bottom: 0;
+  left: -60px;
+}
+
+.sg-corner-glow--right {
+  bottom: 0;
+  right: -60px;
+}
+
+[data-sg="light"] .sg-corner-glow {
+  background: radial-gradient(circle, rgba(185, 154, 97, 0.45) 0%, transparent 65%);
+}
+
+[data-sg="dark"] .sg-corner-glow {
+  background: radial-gradient(circle, rgba(93, 131, 137, 0.55) 0%, transparent 65%);
+}
+
+[data-sg="warm"] .sg-corner-glow {
+  background: radial-gradient(circle, rgba(185, 154, 97, 0.40) 0%, transparent 65%);
+}
+
+[data-sg].sg-active .sg-corner-glow {
+  animation: sectionGlowPulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) 0.05s forwards;
+}
+
+[data-sg].sg-active .sg-corner-glow--right {
+  animation-delay: 0.22s;
+}
+
+/* ── Reduced motion: disable all animation, keep structure ── */
+@media (prefers-reduced-motion: reduce) {
+  .sg-wave,
+  .sg-scan,
+  .sg-corner-glow {
+    display: none !important;
+  }
+}

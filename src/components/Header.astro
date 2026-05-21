@@ -1,53 +1,143 @@
 ---
-import { Menu, X, ChevronDown, ArrowRight } from "@lucide/astro";
+import { Menu, X, ChevronDown, ArrowRight, Shield, Truck, Wrench, FileText, Radio, BookOpen } from "@lucide/astro";
 import { site } from "@/data/site";
 
 const currentPath = Astro.url.pathname;
-
 function isActive(href: string) {
   if (href === "/") return currentPath === "/";
   return currentPath.startsWith(href);
 }
+
+const megaNav = [
+  {
+    label: "Machines",
+    href: "/run-flat-tire-changing-machine/",
+    icon: "wrench",
+    children: [
+      { label: "Workshop Model", href: "/run-flat-machine-workshop-model/", desc: "Fixed depot & maintenance facility" },
+      { label: "Container Model", href: "/gmh-098-run-flat-machine-container-model/", desc: "20-ft ISO containerized workshop" },
+      { label: "Trailer Model", href: "/gmt-099-run-flat-machine-trailer-model/", desc: "Mobile field maintenance unit" },
+      { label: "Compare All Models", href: "/products/", desc: "Workshop vs Container vs Trailer" },
+    ],
+  },
+  {
+    label: "Vehicles",
+    href: "/vehicles/",
+    icon: "truck",
+    children: [
+      { label: "HMMWV / Humvee", href: "/hmmwv-humvee-run-flat-tire-changer-guide/", desc: "37×12.50R16.5 run-flat service" },
+      { label: "MRAP", href: "/vehicles/mrap-tire-replacement/", desc: "16.00R20 / 395/85R20 maintenance" },
+      { label: "Stryker 8×8", href: "/vehicles/stryker-wheel-maintenance/", desc: "Heavy run-flat insert service" },
+      { label: "JLTV", href: "/vehicles/jltv-runflat-tire-service/", desc: "16.00R20 tactical run-flat" },
+      { label: "HEMTT", href: "/vehicles/hemtt-tire-maintenance/", desc: "Heavy tactical tire assembly" },
+      { label: "APC / BearCat", href: "/vehicles/apc-runflat-systems/", desc: "Armored vehicle compatibility" },
+    ],
+  },
+  {
+    label: "Maintenance",
+    href: "/maintenance/",
+    icon: "shield",
+    children: [
+      { label: "Run-Flat Insert Replacement", href: "/maintenance/runflat-insert-replacement/", desc: "Step-by-step workflow" },
+      { label: "Removal Procedure", href: "/maintenance/runflat-removal-procedure/", desc: "Controlled disassembly guide" },
+      { label: "Tire Disassembly Safety", href: "/military-tire-disassembly/", desc: "Multi-piece rim safety" },
+      { label: "Depot vs Field Maintenance", href: "/maintenance/depot-vs-field-tire-maintenance/", desc: "Workflow comparison" },
+    ],
+  },
+  {
+    label: "Compatibility",
+    href: "/compatibility/",
+    icon: "file",
+    children: [
+      { label: "Vehicle Compatibility Matrix", href: "/compatibility/military-vehicle-compatibility-matrix/", desc: "Full platform database" },
+      { label: "Tire Size & Rim Guide", href: "/compatibility/tire-size-and-rim-guide/", desc: "16–27 inch range coverage" },
+      { label: "Run-Flat Insert Types", href: "/compatibility/runflat-insert-types/", desc: "Insert identification guide" },
+      { label: "Check Your Vehicle", href: "/compatibility/check-your-vehicle/", desc: "Platform compatibility check" },
+    ],
+  },
+  {
+    label: "Procurement",
+    href: "/procurement/",
+    icon: "radio",
+    children: [
+      { label: "NSN-Assigned Equipment", href: "/procurement/nsn-assigned-runflat-machine/", desc: "Stock number documentation" },
+      { label: "NATO Compatible", href: "/procurement/nato-compatible-tire-changing-equipment/", desc: "STANAG compatibility" },
+      { label: "RFQ Guide", href: "/procurement/runflat-machine-rfq-guide/", desc: "Technical quote process" },
+      { label: "Procurement Binder", href: "/procurement/procurement-binder/", desc: "Full documentation package" },
+    ],
+  },
+  {
+    label: "Resources",
+    href: "/resources/",
+    icon: "book",
+    children: [
+      { label: "Military Tire Technology Guide", href: "/resources/military-tire-technology-guide/", desc: "Technical reference" },
+      { label: "Armored Vehicle Maintenance", href: "/resources/armored-vehicle-maintenance-guide/", desc: "Fleet sustainment guide" },
+      { label: "Run-Flat Insert Guide", href: "/resources/runflat-insert-guide/", desc: "Insert specification guide" },
+      { label: "Blog & Technical Articles", href: "/blog/", desc: "Procurement & maintenance resources" },
+    ],
+  },
+];
 ---
 
 <header class="site-header" data-header>
   <div class="top-strip">
-    <span>Military run-flat tire changer systems</span>
-    <span>Workshop, container, and trailer configurations</span>
+    <div class="top-strip-inner">
+      <span class="top-strip-tag">NATO-Compatible</span>
+      <span class="top-strip-sep" aria-hidden="true">·</span>
+      <span class="top-strip-tag">NSN-Assigned</span>
+      <span class="top-strip-sep" aria-hidden="true">·</span>
+      <span class="top-strip-tag">Workshop · Container · Trailer</span>
+      <span class="top-strip-sep" aria-hidden="true">·</span>
+      <span class="top-strip-tag">16–27" Rim Range</span>
+    </div>
+    <a href="/request-quote/" class="top-strip-rfq">Request Technical Quote <ArrowRight size={12} aria-hidden="true" /></a>
   </div>
+
   <div class="nav-shell">
-    <a href="/" class="brand" aria-label="Run Flat Machine home">
-      <img src="/assets/logo.png" alt="Run Flat Machine" width="180" height="77" />
+    <a href="/" class="brand" aria-label="GM Defensive Run-Flat Tire Changing Machines">
+      <img src="/assets/logo.png" alt="Run Flat Machine by GM Defensive" width="160" height="69" />
     </a>
 
     <button class="mobile-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-toggle>
-      <Menu class="icon-open" size={24} aria-hidden="true" />
-      <X class="icon-close" size={24} aria-hidden="true" />
+      <Menu class="icon-open" size={22} aria-hidden="true" />
+      <X class="icon-close" size={22} aria-hidden="true" />
     </button>
 
     <nav class="primary-nav" aria-label="Primary navigation" data-menu>
-      {
-        site.nav.map((item) => (
-          <div class:list={["nav-item", item.children && "has-children", isActive(item.href) && "active"]}>
-            <a href={item.href}>
-              {item.label}
-              {item.children && <ChevronDown size={15} aria-hidden="true" />}
-            </a>
-            {item.children && (
-              <div class="submenu">
-                {item.children.map((child) => (
-                  <a href={child.href}>{child.label}</a>
-                ))}
-              </div>
-            )}
+      {megaNav.map((item) => (
+        <div class:list={["nav-item has-children", isActive(item.href) && "active"]}>
+          <a href={item.href}>
+            {item.label}
+            <ChevronDown size={14} aria-hidden="true" />
+          </a>
+          <div class="mega-dropdown">
+            <div class="mega-dropdown-inner">
+              {item.children.map((child) => (
+                <a href={child.href} class="mega-link">
+                  <span class="mega-link-label">{child.label}</span>
+                  <span class="mega-link-desc">{child.desc}</span>
+                </a>
+              ))}
+            </div>
+            <div class="mega-dropdown-cta">
+              <a href="/request-quote/" class="mega-cta-btn">
+                Request Technical Quote
+                <ArrowRight size={14} aria-hidden="true" />
+              </a>
+            </div>
           </div>
-        ))
-      }
+        </div>
+      ))}
+
+      <div class:list={["nav-item", isActive("/blog/") && "active"]}>
+        <a href="/blog/">Blog</a>
+      </div>
     </nav>
 
-    <a href="/contact-us/" class="nav-cta">
+    <a href="/request-quote/" class="nav-cta">
       Request Quote
-      <ArrowRight size={17} aria-hidden="true" />
+      <ArrowRight size={16} aria-hidden="true" />
     </a>
   </div>
 </header>

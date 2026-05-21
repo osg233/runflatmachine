@@ -231,3 +231,118 @@ document.querySelectorAll(".decision-v2-card").forEach((card) => {
     glow.style.top = (e.clientY - rect.top - 100) + "px";
   });
 });
+
+/* ── Section Gradient Scroll System ── */
+(function () {
+  if (!("IntersectionObserver" in window)) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const sgSections = document.querySelectorAll("[data-sg]");
+  if (!sgSections.length) return;
+
+  /* Inject gradient elements into each section */
+  sgSections.forEach((section) => {
+    /* Ensure section has position:relative for absolute children */
+    const pos = getComputedStyle(section).position;
+    if (pos === "static") section.style.position = "relative";
+
+    /* Wave blob */
+    const wave = document.createElement("div");
+    wave.className = "sg-wave";
+    section.appendChild(wave);
+
+    /* Top scan line */
+    const scan = document.createElement("div");
+    scan.className = "sg-scan";
+    section.appendChild(scan);
+
+    /* Corner glows */
+    const glowL = document.createElement("div");
+    glowL.className = "sg-corner-glow sg-corner-glow--left";
+    section.appendChild(glowL);
+
+    const glowR = document.createElement("div");
+    glowR.className = "sg-corner-glow sg-corner-glow--right";
+    section.appendChild(glowR);
+  });
+
+  /* Trigger animation on scroll entry */
+  const sgObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const section = entry.target;
+
+        /* Reset any previous run */
+        section.classList.remove("sg-active");
+        void section.offsetHeight; /* force reflow */
+
+        /* Fire */
+        section.classList.add("sg-active");
+
+        /* Auto-clean after animation completes */
+        const cleanup = () => {
+          section.classList.remove("sg-active");
+        };
+        setTimeout(cleanup, 2600);
+      });
+    },
+    { threshold: 0.06, rootMargin: "0px 0px -40px 0px" }
+  );
+
+  sgSections.forEach((s) => sgObserver.observe(s));
+})();
+
+/* ── Scroll Darkening: sections darken as they scroll past ── */
+(function () {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const sections = document.querySelectorAll(".section, .hero, .proof-ribbon-section");
+  if (!sections.length) return;
+
+  /* Inject a darkening overlay div into each section */
+  sections.forEach((section) => {
+    const pos = getComputedStyle(section).position;
+    if (pos === "static") section.style.position = "relative";
+
+    const overlay = document.createElement("div");
+    overlay.className = "scroll-darken-overlay";
+    section.insertBefore(overlay, section.firstChild);
+  });
+
+  let ticking = false;
+
+  const update = () => {
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      const overlay = section.querySelector(".scroll-darken-overlay");
+      if (!overlay) return;
+
+      let progress = 0;
+
+      if (rect.bottom <= 0) {
+        /* Entirely above viewport */
+        progress = 1;
+      } else if (rect.top < 0) {
+        /* Partially scrolled past */
+        const scrolledPast = -rect.top;
+        progress = Math.min(scrolledPast / (rect.height * 0.6), 1);
+      } else {
+        progress = 0;
+      }
+
+      overlay.style.opacity = (progress * 0.72).toFixed(3);
+    });
+
+    ticking = false;
+  };
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      requestAnimationFrame(update);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  update();
+})();
