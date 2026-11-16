@@ -23,7 +23,7 @@ const authorPosts = getPostsForAuthor(author.slug);
       </nav>
       <p class="eyebrow">Author</p>
       <h1>{author.label}</h1>
-      <p>Run-flat machine resources from the sitemap author archive.</p>
+      <p>Run-flat maintenance and procurement articles by {author.label}.</p>
     </div>
   </section>
 
@@ -31,7 +31,7 @@ const authorPosts = getPostsForAuthor(author.slug);
     <div class="container">
       <SectionHeading eyebrow="Archive" title={`Posts by ${author.label}`} />
       <div class="post-grid">
-        {authorPosts.length ? authorPosts.map((post) => <PostCard post={post} />) : <p>No published posts are assigned to this author archive.</p>}
+        {authorPosts.length ? authorPosts.map((post) => <PostCard post={post} />) : <p>No articles yet. <a href="/blog/">Browse all articles</a>.</p>}
       </div>
     </div>
   </section>
