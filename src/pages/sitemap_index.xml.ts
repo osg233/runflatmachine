@@ -6,8 +6,6 @@ const sitemaps = [
   ["product-sitemap.xml", "2025-11-21"],
   ["category-sitemap.xml", "2025-11-24"],
   ["post_tag-sitemap.xml", "2024-07-11"],
-  ["fusion_tb_category-sitemap.xml", "2025-11-21"],
-  ["element_category-sitemap.xml", "2021-10-19"],
   ["author-sitemap.xml", "2025-11-19"],
 ];
 

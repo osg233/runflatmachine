@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://runflatmachine.com/sitemap_index.xml
+Sitemap: https://runflatmachine.com/sitemap.xml

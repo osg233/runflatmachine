@@ -1,3 +1,6 @@
+export type NavLink = { label: string; href: string; desc?: string };
+export type NavItem = { label: string; href?: string; children?: NavLink[] };
+
 export const site = {
   name: "Run Flat Machine",
   legalName: "GM Defensive",
@@ -5,35 +8,52 @@ export const site = {
   external: "https://gmdefensive.com/",
   description:
     "Run-flat tire changer machines for military, police, gendarmerie, and armored vehicle fleets.",
+  quoteHref: "/contact-us/",
+  // Every href here must point to a page that exists in src/pages.
   nav: [
-    { label: "Home", href: "/" },
     {
-      label: "Products",
-      href: "/products/",
+      label: "Machines",
       children: [
-        {
-          label: "GMR-023 Workshop",
-          href: "/run-flat-machine-workshop-model/",
-        },
-        {
-          label: "GMH-098 Container",
-          href: "/gmh-098-run-flat-machine-container-model/",
-        },
-        {
-          label: "GMT-099 Trailer",
-          href: "/gmt-099-run-flat-machine-trailer-model/",
-        },
+        { label: "GMR-023 Workshop Model", href: "/run-flat-machine-workshop-model/", desc: "Fixed depot & maintenance facility" },
+        { label: "GMH-098 Container Model", href: "/gmh-098-run-flat-machine-container-model/", desc: "20-ft ISO containerized workshop" },
+        { label: "GMT-099 Trailer Model", href: "/gmt-099-run-flat-machine-trailer-model/", desc: "Mobile field maintenance unit" },
+        { label: "Compare All Models", href: "/products/", desc: "Workshop vs container vs trailer" },
       ],
     },
-    { label: "FAQ", href: "/frequenty-asked-questions/" },
+    {
+      label: "Vehicles",
+      children: [
+        { label: "HMMWV / Humvee", href: "/hmmwv-humvee-run-flat-tire-changer-guide/", desc: "Field maintenance guide" },
+        { label: "MRAP", href: "/mrap-military-run-flat-tire-machine-guide/", desc: "Run-flat replacement & disassembly" },
+        { label: "Stryker & APC", href: "/stryker-apc-runflat-tire-replacement-machine/", desc: "Armored vehicle tire replacement" },
+        { label: "HEMTT", href: "/hemtt-hutchinson-run-flat-insert-replacement-guide/", desc: "Hutchinson insert replacement" },
+      ],
+    },
+    {
+      label: "Maintenance",
+      children: [
+        { label: "Tire Disassembly", href: "/military-tire-disassembly/", desc: "Step-by-step runflat disassembly" },
+        { label: "Disassemble Tool Guide", href: "/military-tire-disassemble-tool/", desc: "Removal & installation workflow" },
+        { label: "Run-Flat Changer Guide", href: "/run-flat-changer-guide-for-military-success/", desc: "Military maintenance basics" },
+        { label: "5 Keys for Armored Vehicles", href: "/5-keys-of-run-flat-changer-machines-for-armored-vehicles/", desc: "What to look for in a changer" },
+      ],
+    },
+    {
+      label: "Procurement",
+      children: [
+        { label: "Frequently Asked Questions", href: "/frequenty-asked-questions/", desc: "Warranty, NSN, delivery & training" },
+        { label: "GM vs Other Machines", href: "/comparing-gm-run-flat-machine-with-others/", desc: "How the machines compare" },
+        { label: "Compare Configurations", href: "/products/", desc: "Specs side by side" },
+        { label: "Request a Quote", href: "/contact-us/", desc: "Talk to the engineering team" },
+      ],
+    },
     { label: "Blog", href: "/blog/" },
-    { label: "Contact Us", href: "/contact-us/" },
-  ],
+  ] as NavItem[],
   metrics: [
     { value: "2", label: "Years warranty" },
     { value: "15", label: "Years spare parts availability" },
     { value: "34+", label: "Country references" },
-    { value: "16-27 in", label: "Supported rim range" },
+    { value: "16–27 in", label: "Supported rim range" },
   ],
 };
 
@@ -117,7 +137,7 @@ export const products: Product[] = [
     specs: [
       { label: "Configuration", value: "Workshop machine" },
       { label: "Use case", value: "Depot and indoor maintenance" },
-      { label: "Rim range", value: "16-27 in" },
+      { label: "Rim range", value: "16–27 in" },
       { label: "Controls", value: "Joystick and radio remote" },
     ],
     technicalOverview: "The GMR-023 Workshop Model is the fixed-installation configuration of the GM Defensive run-flat changer family. Engineered for controlled depot environments, it delivers the highest throughput and most comfortable operating conditions for maintenance teams servicing military and armored vehicle tire assemblies. The machine's hydraulic architecture is calibrated for sustained, high-volume operations where predictability, repeatability, and operator safety are paramount. Every subsystem — from the integrated lift to the hydraulic extraction cylinders — is designed to reduce manual strain while maintaining precise control over forces that can exceed several tons during run-flat insert operations.",
@@ -197,7 +217,7 @@ export const products: Product[] = [
     specs: [
       { label: "Configuration", value: "20-foot container" },
       { label: "Use case", value: "Outdoor and field workshops" },
-      { label: "Rim range", value: "16-27 in" },
+      { label: "Rim range", value: "16–27 in" },
       { label: "Controls", value: "Joystick and radio remote" },
     ],
     technicalOverview: "The GMH-098 Container Model packages the full run-flat changer capability inside a standard 20-foot ISO shipping container. This configuration transforms the container into a self-contained, deployable workshop that can be transported by truck, rail, sea, or air to wherever fleet maintenance demand exists. The containerized design provides a protected, weather-resistant workspace while maintaining the same hydraulic force, lifting capacity, and operator control systems found in the fixed workshop model. Climate-control provisions allow operations in extreme temperature environments, from desert heat to arctic cold.",
@@ -277,7 +297,7 @@ export const products: Product[] = [
     specs: [
       { label: "Configuration", value: "Trailer model" },
       { label: "Use case", value: "Mobile field operations" },
-      { label: "Rim range", value: "16-27 in" },
+      { label: "Rim range", value: "16–27 in" },
       { label: "Controls", value: "Joystick and radio remote" },
     ],
     technicalOverview: "The GMT-099 Trailer Model is the fully mobile configuration of the GM Defensive run-flat changer family. Mounted on a purpose-built trailer platform, it brings complete run-flat tire service capability to wherever military vehicles are operating — from forward staging areas to dispersed field maintenance points across multiple locations. The trailer configuration includes provisions for onboard generator, air compressor, and tool storage, creating a self-sufficient mobile maintenance unit that requires no permanent infrastructure. This is the configuration of choice for forces that need to support large, geographically dispersed fleets without concentrating vehicles at fixed depot locations.",
@@ -982,7 +1002,7 @@ export const utilityPages = [
   {
     slug: "frequenty-asked-questions",
     href: "/frequenty-asked-questions/",
-    title: "Frequenty Asked Questions",
+    title: "Frequently Asked Questions",
     lastmod: "2024-03-09",
   },
   { slug: "blog", href: "/blog/", title: "Blog", lastmod: "2024-02-24" },
