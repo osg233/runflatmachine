@@ -4,7 +4,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import ProductCard from "@/components/ProductCard.astro";
 import PostCard from "@/components/PostCard.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
-import { getPostBySlug, getProductBySlug, posts, products, site } from "@/data/site";
+import { getPostBySlug, getProductBySlug, hd, posts, products, site } from "@/data/site";
 
 export function getStaticPaths() {
   return [
@@ -32,7 +32,7 @@ const sysIcons: Record<string, any> = { hydraulic: Zap, lift: Layers, ring: Cog,
   product && (
     <BaseLayout title={product.title} description={product.summary} image={product.heroImage}>
       {/* ── Cinematic Hero — Full-bleed Image (UNTOUCHED structure, sharpened image) ── */}
-      <section class="product-hero" style={`--product-hero-image: url('${product.heroImage}')`}>
+      <section class="product-hero" style={`--product-hero-image: url('${hd(product.heroImage)}')`}>
         <div class="product-hero-inner">
           <div class="product-hero-content reveal">
             <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -361,7 +361,7 @@ const sysIcons: Record<string, any> = { hydraulic: Zap, lift: Layers, ring: Cog,
     const formattedDate = new Date(`${post.date}T00:00:00`).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
     return (
     <BaseLayout title={post.title} description={post.excerpt} image={post.image}>
-      <section class="page-hero blog-post-hero" style={`--page-image: url('${post.image}')`}>
+      <section class="page-hero blog-post-hero" style={`--page-image: url('${hd(post.image)}')`}>
         <div class="container reveal">
           <nav class="breadcrumb" aria-label="Breadcrumb">
             <a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span>{post.title}</span>

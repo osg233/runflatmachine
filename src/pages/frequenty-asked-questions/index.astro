@@ -2,7 +2,7 @@
 import { ArrowRight, CircleCheck, Shield, Wrench, HelpCircle, ChevronDown } from "@lucide/astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
-import { assets, faqs, products } from "@/data/site";
+import { assets, faqs, hd, products } from "@/data/site";
 ---
 
 <BaseLayout
@@ -11,7 +11,7 @@ import { assets, faqs, products } from "@/data/site";
   image={assets.faqHero}
 >
   <!-- ══ Cinematic Hero ══ -->
-  <section class="faq-hero" style={`--faq-hero-img: url('${assets.faqHero}')`}>
+  <section class="faq-hero" style={`--faq-hero-img: url('${hd(assets.faqHero)}')`}>
     <div class="faq-hero-grid-overlay" aria-hidden="true"></div>
     <div class="faq-hero-vignette" aria-hidden="true"></div>
 
