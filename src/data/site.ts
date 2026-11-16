@@ -57,6 +57,20 @@ export const site = {
   ],
 };
 
+// High-resolution (AI-upscaled) versions of full-width header/hero backgrounds.
+// Use hd() wherever an image is rendered as a full-width hero background.
+const hdImages = new Set([
+  "hero-workshop-concept", "hero-workshop-depot", "hero-container-fob", "hero-trailer-field",
+  "hero-products-depot", "contact-hero-ops", "faq-hero-team", "runflat-removal", "operation",
+  "training", "military-run-flat-tires", "runflat-tire-machine", "blog-hemtt-runflat-system",
+  "blog-hmmwv-runflat-tire", "blog-mrap-tire-changer", "blog-stryker-runflat-system",
+]);
+
+export function hd(src: string) {
+  const match = src.match(/^\/assets\/([^/]+)\.(png|jpe?g|webp)$/);
+  return match && hdImages.has(match[1]) ? `/assets/${match[1]}-hd.webp` : src;
+}
+
 export const assets = {
   logo: "/assets/logo.png",
   logoMark: "/assets/logo-mark.png",

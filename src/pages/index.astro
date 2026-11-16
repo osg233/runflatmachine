@@ -4,7 +4,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import ProductCard from "@/components/ProductCard.astro";
 import PostCard from "@/components/PostCard.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
-import { assets, capabilities, posts, products, site } from "@/data/site";
+import { assets, capabilities, hd, posts, products, site } from "@/data/site";
 ---
 
 <BaseLayout
@@ -12,7 +12,7 @@ import { assets, capabilities, posts, products, site } from "@/data/site";
   description="Premium run-flat tire changer systems for armored vehicle and military truck maintenance teams."
   image={assets.hero}
 >
-  <section class="hero" style={`--hero-image: url('${assets.hero}')`}>
+  <section class="hero" style={`--hero-image: url('${hd(assets.hero)}')`}>
     <div class="hero-inner">
       <div class="hero-layout">
         <div class="hero-copy reveal">

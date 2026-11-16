@@ -2,7 +2,7 @@
 import { ArrowRight, CircleCheck, Mail, ShieldCheck, Globe, Clock, Headphones, ChevronDown } from "@lucide/astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
-import { assets, products, site } from "@/data/site";
+import { assets, hd, products, site } from "@/data/site";
 ---
 
 <BaseLayout
@@ -11,7 +11,7 @@ import { assets, products, site } from "@/data/site";
   image={assets.contactHero}
 >
   <!-- ══ Cinematic Hero ══ -->
-  <section class="contact-hero" style={`--contact-hero-img: url('${assets.contactHero}')`}>
+  <section class="contact-hero" style={`--contact-hero-img: url('${hd(assets.contactHero)}')`}>
     <div class="contact-hero-grid-overlay" aria-hidden="true"></div>
     <div class="contact-hero-vignette" aria-hidden="true"></div>
 
