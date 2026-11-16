@@ -3,20 +3,72 @@ const header = document.querySelector("[data-header]");
 const toggle = document.querySelector("[data-menu-toggle]");
 const menu = document.querySelector("[data-menu]");
 
-if (toggle && menu) {
-  toggle.addEventListener("click", () => {
-    const isOpen = menu.classList.toggle("open");
-    toggle.setAttribute("aria-expanded", String(isOpen));
-    document.body.classList.toggle("menu-open", isOpen);
+const desktopNav = window.matchMedia("(min-width: 981px)");
+const navItems = document.querySelectorAll("[data-nav-item]");
+
+const setNavItemOpen = (item, open) => {
+  item.classList.toggle("open", open);
+  item.querySelector("[data-nav-trigger]")?.setAttribute("aria-expanded", String(open));
+};
+const closeAllNavItems = (except) => {
+  navItems.forEach((item) => {
+    if (item !== except) setNavItemOpen(item, false);
   });
+};
+
+const setMenuOpen = (open) => {
+  if (!toggle || !menu) return;
+  menu.classList.toggle("open", open);
+  toggle.setAttribute("aria-expanded", String(open));
+  toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+  document.body.classList.toggle("menu-open", open);
+  if (!open) closeAllNavItems();
+};
+
+if (toggle && menu) {
+  toggle.addEventListener("click", () => setMenuOpen(!menu.classList.contains("open")));
 }
+
+navItems.forEach((item) => {
+  const trigger = item.querySelector("[data-nav-trigger]");
+  trigger?.addEventListener("click", () => {
+    const open = !item.classList.contains("open");
+    closeAllNavItems(item);
+    setNavItemOpen(item, open);
+  });
+  item.addEventListener("mouseleave", () => {
+    if (desktopNav.matches) setNavItemOpen(item, false);
+  });
+});
+
+document.addEventListener("click", (event) => {
+  if (!desktopNav.matches) return;
+  if (!event.target.closest("[data-nav-item]")) closeAllNavItems();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return;
+  const openItem = document.querySelector("[data-nav-item].open");
+  if (openItem) {
+    setNavItemOpen(openItem, false);
+    openItem.querySelector("[data-nav-trigger]")?.focus();
+  } else if (menu?.classList.contains("open")) {
+    setMenuOpen(false);
+    toggle?.focus();
+  }
+});
+
+desktopNav.addEventListener("change", (event) => {
+  if (event.matches) setMenuOpen(false);
+});
 
 let lastScroll = 0;
 const setHeaderState = () => {
   if (!header) return;
   const y = window.scrollY;
+  const navBusy = document.body.classList.contains("menu-open") || document.querySelector("[data-nav-item].open");
   header.classList.toggle("scrolled", y > 24);
-  header.classList.toggle("header-hide", y > 400 && y > lastScroll);
+  header.classList.toggle("header-hide", !navBusy && y > 400 && y > lastScroll);
   lastScroll = y;
 };
 setHeaderState();
@@ -45,7 +97,8 @@ if ("IntersectionObserver" in window) {
         }
       });
     },
-    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    /* threshold 0: very tall blocks (long articles) can never reach a ratio threshold on small screens */
+    { threshold: 0, rootMargin: "0px 0px -8% 0px" }
   );
   revealItems.forEach((item) => observer.observe(item));
 } else {
@@ -291,58 +344,4 @@ document.querySelectorAll(".decision-v2-card").forEach((card) => {
   );
 
   sgSections.forEach((s) => sgObserver.observe(s));
-})();
-
-/* ── Scroll Darkening: sections darken as they scroll past ── */
-(function () {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-  const sections = document.querySelectorAll(".section, .hero, .proof-ribbon-section");
-  if (!sections.length) return;
-
-  /* Inject a darkening overlay div into each section */
-  sections.forEach((section) => {
-    const pos = getComputedStyle(section).position;
-    if (pos === "static") section.style.position = "relative";
-
-    const overlay = document.createElement("div");
-    overlay.className = "scroll-darken-overlay";
-    section.insertBefore(overlay, section.firstChild);
-  });
-
-  let ticking = false;
-
-  const update = () => {
-    sections.forEach((section) => {
-      const rect = section.getBoundingClientRect();
-      const overlay = section.querySelector(".scroll-darken-overlay");
-      if (!overlay) return;
-
-      let progress = 0;
-
-      if (rect.bottom <= 0) {
-        /* Entirely above viewport */
-        progress = 1;
-      } else if (rect.top < 0) {
-        /* Partially scrolled past */
-        const scrolledPast = -rect.top;
-        progress = Math.min(scrolledPast / (rect.height * 0.6), 1);
-      } else {
-        progress = 0;
-      }
-
-      overlay.style.opacity = (progress * 0.72).toFixed(3);
-    });
-
-    ticking = false;
-  };
-
-  window.addEventListener("scroll", () => {
-    if (!ticking) {
-      requestAnimationFrame(update);
-      ticking = true;
-    }
-  }, { passive: true });
-
-  update();
 })();
